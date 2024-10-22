@@ -506,7 +506,13 @@
     p7zip
     glxinfo
     # wineWowPackages.staging
-    wineWowPackages.waylandFull
+    # wineWowPackages.waylandFull
+    # wineWowPackages.unstableFull
+    wineWowPackages.stagingFull
+    wineWowPackages.fonts
+    wineWow64Packages.fonts
+    winePackages.fonts
+    wine64Packages.fonts
     winetricks
     glmark2
     arphic-ukai

@@ -148,8 +148,8 @@
     vlc
     lldb
     libguestfs
-    noto-fonts-cjk-sans
-    noto-fonts-cjk-serif
+    # noto-fonts-cjk-sans
+    # noto-fonts-cjk-serif
     source-han-sans
     source-han-serif
     gnome-tweaks
@@ -246,7 +246,8 @@
   fonts = {
     packages = with pkgs; [
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
       noto-fonts-emoji
       liberation_ttf
       fira-code

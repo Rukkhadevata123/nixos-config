@@ -473,6 +473,7 @@
     source-han-sans
     source-han-serif
     gnome-tweaks
+    xorg.xhost
     # findutils
     mlocate # sudo addgroup mlocate
     # xdg-desktop-portal-gnome

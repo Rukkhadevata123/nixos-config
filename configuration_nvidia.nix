@@ -496,7 +496,7 @@
     gedit
     go
     prismlauncher
-    corefonts
+    # corefonts
     protonup-qt
     zlib
     openssl.dev

@@ -65,14 +65,19 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
+  
+  programs.firefox.enable = true;
+  programs.firefox.wrapperConfig = {
+    pipewireSupport = true;
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
    users.users.yoimiya = {
      isNormalUser = true;
+     createHome = true;
      home = "/home/yoimiya";
      extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
      packages = with pkgs; [
-       firefox
        tree
      ];
    };

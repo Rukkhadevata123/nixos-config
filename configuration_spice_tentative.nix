@@ -10,12 +10,6 @@
     ./hardware-configuration.nix
   ];
 
-
-  # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-  };
-
   # Bootloader configuration.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -53,6 +47,8 @@
   xdg.portal.wlr.enable = true;
 
   # Enable the X11 windowing system with the modesetting video driver.
+  hardware.graphics.enable32Bit = true;
+  hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "modesetting" ];
 
   # Enable the GNOME Desktop Environment.
@@ -87,13 +83,24 @@
   users.users.yoimiya = {
     isNormalUser = true;
     description = "Yoimiya";
+    shell = pkgs.bashInteractive
     extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.fish;
     packages = with pkgs; [
       # thunderbird
-      vscode
+      vscode.fhs
     ];
   };
+
+  programs.bash = {
+    interactiveShellInit = ''
+      if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
+      then
+        shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
+        exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
+      fi
+    '';
+  };
+
   
   # Install Firefox.
   programs.firefox.enable = true;
@@ -101,66 +108,139 @@
   # Allow unfree packages.
   nixpkgs.config.allowUnfree = true;
 
-  hardware.opengl.driSupport32Bit = true;
+  nixpkgs.overlays = [
+    # GNOME 46: triple-buffering-v4-46
+    (final: prev: {
+      gnome = prev.gnome.overrideScope (gnomeFinal: gnomePrev: {
+        mutter = gnomePrev.mutter.overrideAttrs (old: {
+          src = pkgs.fetchFromGitLab  {
+            domain = "gitlab.gnome.org";
+            owner = "vanvugt";
+            repo = "mutter";
+            rev = "triple-buffering-v4-46";
+            hash = "sha256-fkPjB/5DPBX06t7yj0Rb3UEuu5b9mu3aS+jhH18+lpI=";
+          };
+        });
+      });
+    })
+  ];
+
+  programs.nix-ld = {
+    enable = true;
+    libraries = pkgs.steam-run.fhsenv.args.multiPkgs pkgs;
+  };
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     wget
     spice-vdagent
     bleachbit
+    busybox
+    gimp
+    imagemagick
+    emacs
+    jq
+    coreutils
+    xclip
+    valgrind
     vim
+    gdb
     vlc
-    git
-    llvm
     lldb
-    # firefox
     libguestfs
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
     source-han-sans
     source-han-serif
-    gnome.gnome-tweaks
-    xdg-desktop-portal-gnome
-    # fish
+    gnome-tweaks
+    xorg.xhost
+    mlocate # sudo addgroup mlocate
     appimage-run
     v2ray
     v2raya
     fastfetch
-    # vscode-with-extensions
     jdk
+    maven
+    gradle
     gcc
     rustup
     cmake
+    eza
     python3
     nodejs
+    hexo-cli
     gedit
     go
-    # conda
-  
+    prismlauncher
+    corefonts
+    zlib
+    openssl.dev
+    pkg-config
+    wqy_zenhei
+    wqy_microhei
+    # liberation_ttf_v1
+    p7zip
+    glxinfo
+    glmark2
+    arphic-ukai
+    arphic-uming
+    gitRepo
+    gnupg
+    autoconf
+    procps
+    gnumake
+    util-linux
+    m4
+    gperf
+    unzip
+    cachix
+    orchis-theme
+    bibata-cursors
+    libsForQt5.qt5ct
+    libsForQt5.qtstyleplugin-kvantum
+    kdePackages.qt6ct
+    papirus-icon-theme
+    stdenv.cc
+    binutils
+    htop
+    bashInteractive
+    ninja
+    thefuck
+    pandoc
+    wl-clipboard
+    filezilla
+    motrix
+    llvmPackages_latest.llvm
+    kdePackages.filelight
+    yesplaymusic
+    ((pkgs.ffmpeg-full.override { withUnfree = true; withOpengl = true; }).overrideAttrs (_: { doCheck = false; }))
+
+    (chromium.override {
+      enableWideVine = true;
+      commandLineArgs = [
+        "--enable-features=VaapiVideoDecodeLinuxGL"
+        "--ignore-gpu-blocklist"
+        "--enable-zero-copy"
+      ];
+    })
+    
     # Extensions
     gnomeExtensions.dash-to-dock
+    gnomeExtensions.lunar-calendar
     gnomeExtensions.gsconnect
     gnomeExtensions.clipboard-indicator
     gnomeExtensions.blur-my-shell
     gnomeExtensions.coverflow-alt-tab
     gnomeExtensions.extension-list
     gnomeExtensions.appindicator
-    # gnomeExtensions.auto-move-windows
     gnomeExtensions.gtk4-desktop-icons-ng-ding
-    # gnomeExtensions.launch-new-instance
-    # gnomeExtensions.user-themes
     gnomeExtensions.vitals
-    # gnomeExtensions.easyScreenCast
-    # gnomeExtensions.fuzzy-app-search
     gnomeExtensions.just-perfection
     gnomeExtensions.user-avatar-in-quick-settings
     gnomeExtensions.weather-oclock
     gnomeExtensions.arcmenu
     gnomeExtensions.gnome-40-ui-improvements
     gnomeExtensions.legacy-gtk3-theme-scheme-auto-switcher
-    # gnomeExtensions.light-style
-    # gnomeExtensions.removable-drive-menu
-    # gnomeExtensions.screenshot-window-sizer
   ];
   # Font packages configuration.
   fonts = {
@@ -175,6 +255,7 @@
       dina-font
       proggyfonts
       gyre-fonts
+      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "Ubuntu" "JetBrainsMono" "0xProto" "Meslo" ]; })
     ];
 
     # Custom fontconfig configuration.
@@ -228,12 +309,18 @@
   };
 
   i18n.inputMethod = {
-    enabled = "ibus";
+    enable = true;
+    type = "ibus";
     ibus.engines = with pkgs.ibus-engines; [ libpinyin mozc ];
   };
 
   nix.gc.automatic = true;
   nix.gc.dates = "12:00";
+
+  boot.kernel.sysctl = {
+    "vm.max_map_count" = 2147483642;
+    "fs.file-max" = 524288;
+  };
 
   boot.kernelParams = [
     "quiet"
@@ -248,16 +335,6 @@
     "virtio_net"
     "virtio_ring"
   ];
-  
-  # boot.kernelPatches = [
-  #   {
-  #     name = "Rust Support";
-  #     patch = null;
-  #     features = {
-  #       rust = true;
-  #     };
-  #   }
-  # ];
 
   # List services that you want to enable:
   # Enable the OpenSSH daemon.
@@ -266,6 +343,9 @@
   # Enable Spice for virtual machines.
   services.spice-vdagentd.enable = true;
   services.qemuGuest.enable = true;
+
+  system.autoUpgrade.enable = true;
+  system.autoUpgrade.allowReboot = false;
 
   # V2Ray service configuration.
   systemd.services.v2ray = {

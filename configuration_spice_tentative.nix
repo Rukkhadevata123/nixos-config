@@ -1,9 +1,11 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
+{
+  config,
+  pkgs,
+  ...
+}:
 {
   imports = [
     # Include the results of the hardware scan.
@@ -17,11 +19,11 @@
   # Networking configuration.
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  
+
   # Configure network proxy if necessary.
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-  
+
   # Enable networking.
   networking.networkmanager.enable = true;
 
@@ -83,8 +85,11 @@
   users.users.yoimiya = {
     isNormalUser = true;
     description = "Yoimiya";
-    shell = pkgs.bashInteractive
-    extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.bashInteractive;
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
       # thunderbird
       vscode.fhs
@@ -101,7 +106,6 @@
     '';
   };
 
-  
   # Install Firefox.
   programs.firefox.enable = true;
 
@@ -111,17 +115,19 @@
   nixpkgs.overlays = [
     # GNOME 46: triple-buffering-v4-46
     (final: prev: {
-      gnome = prev.gnome.overrideScope (gnomeFinal: gnomePrev: {
-        mutter = gnomePrev.mutter.overrideAttrs (old: {
-          src = pkgs.fetchFromGitLab  {
-            domain = "gitlab.gnome.org";
-            owner = "vanvugt";
-            repo = "mutter";
-            rev = "triple-buffering-v4-46";
-            hash = "sha256-fkPjB/5DPBX06t7yj0Rb3UEuu5b9mu3aS+jhH18+lpI=";
-          };
-        });
-      });
+      gnome = prev.gnome.overrideScope (
+        gnomeFinal: gnomePrev: {
+          mutter = gnomePrev.mutter.overrideAttrs (old: {
+            src = pkgs.fetchFromGitLab {
+              domain = "gitlab.gnome.org";
+              owner = "vanvugt";
+              repo = "mutter";
+              rev = "triple-buffering-v4-46";
+              hash = "sha256-fkPjB/5DPBX06t7yj0Rb3UEuu5b9mu3aS+jhH18+lpI=";
+            };
+          });
+        }
+      );
     })
   ];
 
@@ -213,7 +219,15 @@
     llvmPackages_latest.llvm
     kdePackages.filelight
     yesplaymusic
-    ((pkgs.ffmpeg-full.override { withUnfree = true; withOpengl = true; }).overrideAttrs (_: { doCheck = false; }))
+    (
+      (pkgs.ffmpeg-full.override {
+        withUnfree = true;
+        withOpengl = true;
+      }).overrideAttrs
+      (_: {
+        doCheck = false;
+      })
+    )
 
     (chromium.override {
       enableWideVine = true;
@@ -223,7 +237,7 @@
         "--enable-zero-copy"
       ];
     })
-    
+
     # Extensions
     gnomeExtensions.dash-to-dock
     gnomeExtensions.lunar-calendar
@@ -256,7 +270,16 @@
       dina-font
       proggyfonts
       gyre-fonts
-      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "Ubuntu" "JetBrainsMono" "0xProto" "Meslo" ]; })
+      (nerdfonts.override {
+        fonts = [
+          "FiraCode"
+          "DroidSansMono"
+          "Ubuntu"
+          "JetBrainsMono"
+          "0xProto"
+          "Meslo"
+        ];
+      })
     ];
 
     # Custom fontconfig configuration.
@@ -312,7 +335,10 @@
   i18n.inputMethod = {
     enable = true;
     type = "ibus";
-    ibus.engines = with pkgs.ibus-engines; [ libpinyin mozc ];
+    ibus.engines = with pkgs.ibus-engines; [
+      libpinyin
+      mozc
+    ];
   };
 
   nix.gc.automatic = true;
@@ -351,14 +377,14 @@
   # V2Ray service configuration.
   systemd.services.v2ray = {
     description = "V2Ray Service";
-    after = [ "network.target" ];  # Run after network is up.
-    
+    after = [ "network.target" ]; # Run after network is up.
+
     serviceConfig = {
-      ExecStart = "${pkgs.v2ray}/bin/v2ray run";  # Start V2Ray.
-      Restart = "always";  # Restart on failure.
+      ExecStart = "${pkgs.v2ray}/bin/v2ray run"; # Start V2Ray.
+      Restart = "always"; # Restart on failure.
     };
 
-    wantedBy = [ "multi-user.target" ];  # Run in multi-user mode.
+    wantedBy = [ "multi-user.target" ]; # Run in multi-user mode.
   };
 
   # Open ports in the firewall.
@@ -375,4 +401,3 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 }
-

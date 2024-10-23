@@ -5,7 +5,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -27,17 +28,19 @@
     systemd-boot.extraFiles."efi/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
     systemd-boot.extraEntries = {
       # Chainload Windows bootloader via EDK2 Shell
-      "windows.conf" = let
-        # To determine the name of the windows boot drive, boot into edk2 first, then run
-        # `map -c` to get drive aliases, and try out running `FS1:`, then `ls EFI` to check
-        # which alias corresponds to which EFI partition.
-        boot-drive = "FS2";
-      in ''
-        title Windows Bootloader
-        efi /efi/shell.efi
-        options -nointerrupt -nomap -noversion ${boot-drive}:EFI\Microsoft\Boot\Bootmgfw.efi
-        sort-key y_windows
-      '';
+      "windows.conf" =
+        let
+          # To determine the name of the windows boot drive, boot into edk2 first, then run
+          # `map -c` to get drive aliases, and try out running `FS1:`, then `ls EFI` to check
+          # which alias corresponds to which EFI partition.
+          boot-drive = "FS2";
+        in
+        ''
+          title Windows Bootloader
+          efi /efi/shell.efi
+          options -nointerrupt -nomap -noversion ${boot-drive}:EFI\Microsoft\Boot\Bootmgfw.efi
+          sort-key y_windows
+        '';
       # Make EDK2 Shell available as a boot option
       "edk2-uefi-shell.conf" = ''
         title EDK2 UEFI Shell
@@ -113,7 +116,7 @@
   # services.xserver.videoDrivers = [ "modesetting" ];
   hardware.graphics.enable32Bit = true;
   hardware.graphics.enable = true;
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
     # Modesetting is required.
@@ -204,7 +207,13 @@
     createHome = true;
     home = "/home/yoimiya";
     description = "Yoimiya";
-    extraGroups = ["networkmanager" "wheel" "libvirtd" "docker" "mlocate"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "libvirtd"
+      "docker"
+      "mlocate"
+    ];
     # shell = pkgs.fish;
     packages = with pkgs; [
       # thunderbird
@@ -254,7 +263,10 @@
 
     ohMyZsh = {
       enable = true;
-      plugins = ["git" "thefuck"];
+      plugins = [
+        "git"
+        "thefuck"
+      ];
       theme = "candy";
     };
   };
@@ -309,7 +321,14 @@
         hi TabLine ctermbg=NONE ctermfg=NONE guibg=NONE
       '';
       packages.myVimPackage = with pkgs.vimPlugins; {
-        start = [vim-bufferline ctrlp tokyonight-nvim nvim-tree-lua copilot-vim nvim-treesitter];
+        start = [
+          vim-bufferline
+          ctrlp
+          tokyonight-nvim
+          nvim-tree-lua
+          copilot-vim
+          nvim-treesitter
+        ];
       };
     };
   };
@@ -320,17 +339,19 @@
   nixpkgs.overlays = [
     # GNOME 46: triple-buffering-v4-46
     (final: prev: {
-      gnome = prev.gnome.overrideScope (gnomeFinal: gnomePrev: {
-        mutter = gnomePrev.mutter.overrideAttrs (old: {
-          src = pkgs.fetchFromGitLab {
-            domain = "gitlab.gnome.org";
-            owner = "vanvugt";
-            repo = "mutter";
-            rev = "triple-buffering-v4-46";
-            hash = "sha256-fkPjB/5DPBX06t7yj0Rb3UEuu5b9mu3aS+jhH18+lpI=";
-          };
-        });
-      });
+      gnome = prev.gnome.overrideScope (
+        gnomeFinal: gnomePrev: {
+          mutter = gnomePrev.mutter.overrideAttrs (old: {
+            src = pkgs.fetchFromGitLab {
+              domain = "gitlab.gnome.org";
+              owner = "vanvugt";
+              repo = "mutter";
+              rev = "triple-buffering-v4-46";
+              hash = "sha256-fkPjB/5DPBX06t7yj0Rb3UEuu5b9mu3aS+jhH18+lpI=";
+            };
+          });
+        }
+      );
     })
   ];
 
@@ -516,6 +537,7 @@
     python3
     nodejs
     hexo-cli
+    nixfmt-rfc-style
     gedit
     go
     prismlauncher
@@ -602,11 +624,15 @@
     # neovim
     kdePackages.filelight
     yesplaymusic
-    ((pkgs.ffmpeg-full.override {
+    (
+      (pkgs.ffmpeg-full.override {
         withUnfree = true;
         withOpengl = true;
+      }).overrideAttrs
+      (_: {
+        doCheck = false;
       })
-      .overrideAttrs (_: {doCheck = false;}))
+    )
     (pkgs.wrapOBS {
       plugins = with pkgs.obs-studio-plugins; [
         wlrobs
@@ -663,7 +689,16 @@
       dina-font
       proggyfonts
       gyre-fonts
-      (nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "Ubuntu" "JetBrainsMono" "0xProto" "Meslo"];})
+      (nerdfonts.override {
+        fonts = [
+          "FiraCode"
+          "DroidSansMono"
+          "Ubuntu"
+          "JetBrainsMono"
+          "0xProto"
+          "Meslo"
+        ];
+      })
     ];
 
     # Custom fontconfig configuration.
@@ -719,7 +754,10 @@
   i18n.inputMethod = {
     enable = true;
     type = "ibus";
-    ibus.engines = with pkgs.ibus-engines; [libpinyin mozc];
+    ibus.engines = with pkgs.ibus-engines; [
+      libpinyin
+      mozc
+    ];
   };
 
   # Auto delete old generations.
@@ -755,14 +793,14 @@
   # V2Ray service configuration.
   systemd.services.v2ray = {
     description = "V2Ray Service";
-    after = ["network.target"]; # Run after network is up.
+    after = [ "network.target" ]; # Run after network is up.
 
     serviceConfig = {
       ExecStart = "${pkgs.v2ray}/bin/v2ray run"; # Start V2Ray.
       Restart = "always"; # Restart on failure.
     };
 
-    wantedBy = ["multi-user.target"]; # Run in multi-user mode.
+    wantedBy = [ "multi-user.target" ]; # Run in multi-user mode.
   };
 
   virtualisation.libvirtd.enable = true;
@@ -800,4 +838,3 @@
 }
 # export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=lcd'
 # export LD_LIBRARY_PATH=$(find /nix/store -type d -name '*steam-run-fhs*' -exec echo -n {}'/usr/lib32:'{}'/usr/lib64:' \;)
-

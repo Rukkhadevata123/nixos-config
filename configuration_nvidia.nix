@@ -1,16 +1,16 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./home.nix
   ];
-
 
   # Enable OpenGL
   # hardware.opengl = {
@@ -22,24 +22,22 @@
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
-    
+
     # Copy EDK2 Shell to boot partition
     systemd-boot.extraFiles."efi/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
     systemd-boot.extraEntries = {
       # Chainload Windows bootloader via EDK2 Shell
-      "windows.conf" =
-        let
-          # To determine the name of the windows boot drive, boot into edk2 first, then run
-          # `map -c` to get drive aliases, and try out running `FS1:`, then `ls EFI` to check
-          # which alias corresponds to which EFI partition.
-          boot-drive = "FS2";
-        in
-        ''
-          title Windows Bootloader
-          efi /efi/shell.efi
-          options -nointerrupt -nomap -noversion ${boot-drive}:EFI\Microsoft\Boot\Bootmgfw.efi
-          sort-key y_windows
-        '';
+      "windows.conf" = let
+        # To determine the name of the windows boot drive, boot into edk2 first, then run
+        # `map -c` to get drive aliases, and try out running `FS1:`, then `ls EFI` to check
+        # which alias corresponds to which EFI partition.
+        boot-drive = "FS2";
+      in ''
+        title Windows Bootloader
+        efi /efi/shell.efi
+        options -nointerrupt -nomap -noversion ${boot-drive}:EFI\Microsoft\Boot\Bootmgfw.efi
+        sort-key y_windows
+      '';
       # Make EDK2 Shell available as a boot option
       "edk2-uefi-shell.conf" = ''
         title EDK2 UEFI Shell
@@ -51,8 +49,7 @@
 
   # Networking configuration.
   networking.hostName = "nixos"; # Define your hostname.
-  networking.extraHosts =
-    ''
+  networking.extraHosts = ''
     # Honkai Impact 3rd analytics servers (glb/sea/tw/kr/jp):
     0.0.0.0 log-upload-os.hoyoverse.com
     0.0.0.0 sg-public-data-api.hoyoverse.com
@@ -71,13 +68,13 @@
     # Honkai Star Rail analytics servers (cn)
     0.0.0.0 log-upload.mihoyo.com
     0.0.0.0 public-data-api.mihoyo.com
-    '';
+  '';
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  
+
   # Configure network proxy if necessary.
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-  
+
   # Enable networking.
   networking.networkmanager.enable = true;
 
@@ -101,7 +98,7 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   xdg.portal.wlr.enable = true;
-  
+
   # xdg = {
   #   portal = {
   #     enable = true;
@@ -117,15 +114,14 @@
   hardware.graphics.enable32Bit = true;
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = ["nvidia"];
-  
-  hardware.nvidia = {
 
+  hardware.nvidia = {
     # Modesetting is required.
     modesetting.enable = true;
 
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
     # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
+    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
     # of just the bare essentials.
     powerManagement.enable = false;
 
@@ -135,9 +131,9 @@
 
     # Use the NVidia open source kernel module (not to be confused with the
     # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+    # Support is limited to the Turing and later architectures. Full list of
+    # supported GPUs is at:
+    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
     # Only available from driver 515.43.04+
     # Currently "beta quality", so false is currently the recommended setting.
     open = true;
@@ -149,18 +145,17 @@
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
-  
+
   hardware.nvidia.prime = {
-  
     offload = {
       enable = true;
       enableOffloadCmd = true;
     };
-      
+
     intelBusId = "PCI:0:2:0";
     nvidiaBusId = "PCI:1:0:0"; # Specify the PCI address of the Nvidia GPU.
   };
-  
+
   # Other nix binary caches.
   nix.settings = {
     substituters = [
@@ -209,7 +204,7 @@
     createHome = true;
     home = "/home/yoimiya";
     description = "Yoimiya";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" "mlocate" ];
+    extraGroups = ["networkmanager" "wheel" "libvirtd" "docker" "mlocate"];
     # shell = pkgs.fish;
     packages = with pkgs; [
       # thunderbird
@@ -224,23 +219,23 @@
       # wpsoffice-cn
     ];
   };
-  
+
   # Install Firefox.
   programs.firefox.enable = true;
-  
+
   programs.thunderbird.enable = true;
-  
+
   programs.dconf.enable = true;
-  
+
   programs.firefox.wrapperConfig = {
     pipewireSupport = true;
   };
-  
+
   programs.appimage = {
     enable = true;
     binfmt = true;
   };
-  
+
   # programs.bash = {
   #   interactiveShellInit = ''
   #     if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
@@ -250,20 +245,20 @@
   #     fi
   #   '';
   # };
-  
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
-    
+
     ohMyZsh = {
       enable = true;
       plugins = ["git" "thefuck"];
       theme = "candy";
     };
   };
-  
+
   environment.variables.EDITOR = "nvim";
   environment.variables.MOZ_ENABLE_WAYLAND = "1";
   # environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -314,20 +309,20 @@
         hi TabLine ctermbg=NONE ctermfg=NONE guibg=NONE
       '';
       packages.myVimPackage = with pkgs.vimPlugins; {
-        start = [ vim-bufferline ctrlp tokyonight-nvim nvim-tree-lua copilot-vim nvim-treesitter ];
+        start = [vim-bufferline ctrlp tokyonight-nvim nvim-tree-lua copilot-vim nvim-treesitter];
       };
     };
   };
 
   # Allow unfree packages.
   nixpkgs.config.allowUnfree = true;
-  
+
   nixpkgs.overlays = [
     # GNOME 46: triple-buffering-v4-46
     (final: prev: {
       gnome = prev.gnome.overrideScope (gnomeFinal: gnomePrev: {
         mutter = gnomePrev.mutter.overrideAttrs (old: {
-          src = pkgs.fetchFromGitLab  {
+          src = pkgs.fetchFromGitLab {
             domain = "gitlab.gnome.org";
             owner = "vanvugt";
             repo = "mutter";
@@ -343,7 +338,7 @@
     enable = true;
     libraries = pkgs.steam-run.fhsenv.args.multiPkgs pkgs;
   };
-  
+
   # programs.nix-ld.enable = true;
   # programs.nix-ld.libraries = with pkgs; [
   #   SDL
@@ -481,7 +476,7 @@
     imagemagick
     emacs
     jq
-    coreutils
+    coreutils-full
     xclip
     valgrind
     vim
@@ -574,13 +569,25 @@
     # ncurses5
     orchis-theme
     bibata-cursors
+    qtcreator
+    libsForQt5.full
     libsForQt5.qt5ct
     libsForQt5.qtstyleplugin-kvantum
+    # libsForQt5.breeze-qt5
+    # libsForQt5.breeze-gtk
+    # libsForQt5.breeze-icons
+    kdePackages.full
     kdePackages.qt6ct
+    kdePackages.qt6gtk2
+    kdePackages.breeze
+    kdePackages.breeze-gtk
+    kdePackages.breeze-icons
     papirus-icon-theme
     stdenv.cc
     binutils
     htop
+    alejandra
+    zathura
     bashInteractive
     obsidian
     ninja
@@ -595,7 +602,11 @@
     # neovim
     kdePackages.filelight
     yesplaymusic
-    ((pkgs.ffmpeg-full.override { withUnfree = true; withOpengl = true; }).overrideAttrs (_: { doCheck = false; }))
+    ((pkgs.ffmpeg-full.override {
+        withUnfree = true;
+        withOpengl = true;
+      })
+      .overrideAttrs (_: {doCheck = false;}))
     (pkgs.wrapOBS {
       plugins = with pkgs.obs-studio-plugins; [
         wlrobs
@@ -611,7 +622,7 @@
         "--enable-zero-copy"
       ];
     })
-    
+
     # Extensions
     gnomeExtensions.dash-to-dock
     gnomeExtensions.lunar-calendar
@@ -652,7 +663,7 @@
       dina-font
       proggyfonts
       gyre-fonts
-      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "Ubuntu" "JetBrainsMono" "0xProto" "Meslo" ]; })
+      (nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "Ubuntu" "JetBrainsMono" "0xProto" "Meslo"];})
     ];
 
     # Custom fontconfig configuration.
@@ -708,7 +719,7 @@
   i18n.inputMethod = {
     enable = true;
     type = "ibus";
-    ibus.engines = with pkgs.ibus-engines; [ libpinyin mozc ];
+    ibus.engines = with pkgs.ibus-engines; [libpinyin mozc];
   };
 
   # Auto delete old generations.
@@ -726,7 +737,7 @@
     "splash"
     "usbcore.blinkenlights=1"
   ];
-  
+
   boot.kernelPatches = [
     {
       name = "Rust Support";
@@ -744,31 +755,31 @@
   # V2Ray service configuration.
   systemd.services.v2ray = {
     description = "V2Ray Service";
-    after = [ "network.target" ];  # Run after network is up.
-    
+    after = ["network.target"]; # Run after network is up.
+
     serviceConfig = {
-      ExecStart = "${pkgs.v2ray}/bin/v2ray run";  # Start V2Ray.
-      Restart = "always";  # Restart on failure.
+      ExecStart = "${pkgs.v2ray}/bin/v2ray run"; # Start V2Ray.
+      Restart = "always"; # Restart on failure.
     };
 
-    wantedBy = [ "multi-user.target" ];  # Run in multi-user mode.
+    wantedBy = ["multi-user.target"]; # Run in multi-user mode.
   };
-  
+
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
   virtualisation.vmware.host.enable = true;
   virtualisation.docker.enable = true;
   virtualisation.waydroid.enable = true;
-  
+
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = false;
-  
+
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
-  
+
   nixpkgs.config.permittedInsecurePackages = [
     "openssl-1.1.1w"
   ];
@@ -787,9 +798,6 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 }
-
-  # export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=lcd'
-  # export LD_LIBRARY_PATH=$(find /nix/store -type d -name '*steam-run-fhs*' -exec echo -n {}'/usr/lib32:'{}'/usr/lib64:' \;)
-
-
+# export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=lcd'
+# export LD_LIBRARY_PATH=$(find /nix/store -type d -name '*steam-run-fhs*' -exec echo -n {}'/usr/lib32:'{}'/usr/lib64:' \;)
 

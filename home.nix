@@ -26,8 +26,8 @@ in
 
     qt = {
       enable = true;
-      platformTheme.name = "gtk2";
-      style.name = "gtk2";
+      platformTheme.name = "qt6ct";
+      style.name = "qt6gtk2"; # breeze gtk2
     };
 
     # xdg.configFile = {

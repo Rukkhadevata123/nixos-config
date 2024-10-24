@@ -30,6 +30,16 @@ in
       style.name = "qt6gtk2"; # breeze gtk2
     };
 
+    xdg = {
+      portal = {
+        enable = true;
+        extraPortals = with pkgs; [
+          xdg-desktop-portal-wlr
+          xdg-desktop-portal-gtk
+        ];
+      };
+    };
+
     # xdg.configFile = {
     #   "Kvantum/ArcDark".source = "${pkgs.arc-kde-theme}/share/Kvantum/ArcDark";
     #   "Kvantum/kvantum.kvconfig".text = "[General]\ntheme=ArcDark";

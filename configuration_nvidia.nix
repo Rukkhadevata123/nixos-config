@@ -100,17 +100,7 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  xdg.portal.wlr.enable = true;
-
-  # xdg = {
-  #   portal = {
-  #     enable = true;
-  #     extraPortals = with pkgs; [
-  #       xdg-desktop-portal-wlr
-  #       xdg-desktop-portal-gtk
-  #    ];
-  #   };
-  # };
+  # xdg.portal.wlr.enable = true;
 
   # Enable the X11 windowing system with the modesetting video driver.
   # services.xserver.videoDrivers = [ "modesetting" ];
@@ -239,7 +229,7 @@
 
   # Install Firefox.
   programs.firefox.enable = true;
-  
+
   programs.plotinus.enable = true;
 
   programs.thunderbird.enable = true;

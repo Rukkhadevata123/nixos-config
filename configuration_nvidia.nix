@@ -764,7 +764,7 @@
   nix.gc.automatic = true;
   nix.gc.dates = "12:00";
 
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernel.sysctl = {
     "kernel.sysrq" = 1;
     "vm.max_map_count" = 2147483642;
@@ -805,7 +805,7 @@
 
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
-  virtualisation.vmware.host.enable = true;
+  # virtualisation.vmware.host.enable = true;
   virtualisation.docker.enable = true;
   virtualisation.waydroid.enable = true;
 

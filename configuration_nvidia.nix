@@ -116,6 +116,14 @@
   # services.xserver.videoDrivers = [ "modesetting" ];
   hardware.graphics.enable32Bit = true;
   hardware.graphics.enable = true;
+  hardware.graphics.extraPackages = with pkgs; [
+    intel-media-driver
+    intel-media-sdk
+  ];
+  hardware.graphics.extraPackages32 = with pkgs.pkgsi686Linux; [ intel-media-driver ];
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD";
+  };
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
@@ -540,6 +548,8 @@
     nixfmt-rfc-style
     gedit
     go
+    vdpauinfo
+    libva-utils
     prismlauncher
     # corefonts
     protonup-qt
@@ -839,3 +849,4 @@
 }
 # export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=lcd'
 # export LD_LIBRARY_PATH=$(find /nix/store -type d -name '*steam-run-fhs*' -exec echo -n {}'/usr/lib32:'{}'/usr/lib64:' \;)
+# kgx --tab

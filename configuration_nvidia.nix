@@ -862,3 +862,4 @@
 # export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=lcd'
 # export LD_LIBRARY_PATH=$(find /nix/store -type d -name '*steam-run-fhs*' -exec echo -n {}'/usr/lib32:'{}'/usr/lib64:' \;)
 # kgx --tab
+# nix-shell -p ncurses5 flex bison elfutils openssl # kernel

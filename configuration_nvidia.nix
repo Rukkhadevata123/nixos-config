@@ -239,6 +239,8 @@
 
   # Install Firefox.
   programs.firefox.enable = true;
+  
+  programs.plotinus.enable = true;
 
   programs.thunderbird.enable = true;
 
@@ -539,6 +541,7 @@
     gradle
     gcc
     rustup
+    wpsoffice-cn
     edk2-uefi-shell
     cmake
     eza
@@ -572,6 +575,7 @@
     wqy_microhei
     # liberation_ttf_v1
     p7zip
+    dconf-editor
     glxinfo
     # wineWowPackages.staging
     # wineWowPackages.waylandFull
@@ -585,6 +589,7 @@
     glmark2
     arphic-ukai
     arphic-uming
+    openssl
     texliveFull
     conda
     gitRepo
@@ -824,6 +829,26 @@
     };
 
     wantedBy = [ "multi-user.target" ]; # Run in multi-user mode.
+  };
+
+  services.gns3-server = {
+    enable = true;
+
+    auth = {
+      enable = true;
+      user = "gns3";
+      passwordFile = "/var/lib/secrets/gns3_password";
+    };
+
+    ssl = {
+      enable = true;
+      certFile = "/var/lib/gns3/ssl/cert.pem";
+      keyFile = "/var/lib/gns3/ssl/key.pem";
+    };
+
+    dynamips.enable = true;
+    ubridge.enable = true;
+    vpcs.enable = true;
   };
 
   virtualisation.libvirtd.enable = true;

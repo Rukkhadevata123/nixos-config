@@ -283,6 +283,7 @@
 
   environment.variables.EDITOR = "nvim";
   environment.variables.MOZ_ENABLE_WAYLAND = "1";
+  # environment.variables.GTK3_MODULES = "${pkgs.plotinus}/lib/libplotinus.so";
   # environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs.neovim = {
     enable = true;
@@ -541,7 +542,6 @@
     gradle
     gcc
     rustup
-    wpsoffice-cn
     edk2-uefi-shell
     cmake
     eza
@@ -595,6 +595,8 @@
     gitRepo
     gnupg
     autoconf
+    gns3-gui
+    gns3-server
     # curl
     procps
     gnumake
@@ -829,26 +831,6 @@
     };
 
     wantedBy = [ "multi-user.target" ]; # Run in multi-user mode.
-  };
-
-  services.gns3-server = {
-    enable = true;
-
-    auth = {
-      enable = true;
-      user = "gns3";
-      passwordFile = "/var/lib/secrets/gns3_password";
-    };
-
-    ssl = {
-      enable = true;
-      certFile = "/var/lib/gns3/ssl/cert.pem";
-      keyFile = "/var/lib/gns3/ssl/key.pem";
-    };
-
-    dynamips.enable = true;
-    ubridge.enable = true;
-    vpcs.enable = true;
   };
 
   virtualisation.libvirtd.enable = true;

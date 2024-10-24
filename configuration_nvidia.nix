@@ -612,6 +612,7 @@
     zathura
     bashInteractive
     obsidian
+    swtpm
     ninja
     onlyoffice-bin
     thefuck

@@ -531,6 +531,7 @@
     maven
     gradle
     gcc
+    microsoft-edge
     rustup
     edk2-uefi-shell
     cmake
@@ -660,14 +661,14 @@
         obs-pipewire-audio-capture
       ];
     })
-    (chromium.override {
-      enableWideVine = true;
-      commandLineArgs = [
-        "--enable-features=VaapiVideoDecodeLinuxGL"
-        "--ignore-gpu-blocklist"
-        "--enable-zero-copy"
-      ];
-    })
+    # (chromium.override {
+    #   enableWideVine = true;
+    #   commandLineArgs = [
+    #     "--enable-features=VaapiVideoDecodeLinuxGL"
+    #     "--ignore-gpu-blocklist"
+    #     "--enable-zero-copy"
+    #   ];
+    # })
 
     # Extensions
     gnomeExtensions.dash-to-dock

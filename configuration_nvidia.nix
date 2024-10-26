@@ -499,6 +499,7 @@
     emacs
     jq
     coreutils-full
+    coreutils-prefixed
     xclip
     valgrind
     vim
@@ -517,6 +518,10 @@
     source-han-sans
     source-han-serif
     gnome-tweaks
+    hmcl
+    xorg.xcalc
+    termius
+    gpaste
     xorg.xhost
     # findutils
     mlocate # sudo addgroup mlocate
@@ -542,6 +547,7 @@
     nixfmt-rfc-style
     gedit
     go
+    gnuchess
     vdpauinfo
     libva-utils
     prismlauncher
@@ -610,6 +616,12 @@
     # xorg.libXrandr
     # ncurses5
     orchis-theme
+    yaru-theme
+    gparted
+    # geogebra6
+    ubuntu-themes
+    whitesur-gtk-theme
+    typescript
     bibata-cursors
     qtcreator
     libsForQt5.full
@@ -778,6 +790,7 @@
     ibus.engines = with pkgs.ibus-engines; [
       libpinyin
       mozc
+      rime
     ];
   };
 
@@ -824,6 +837,9 @@
     wantedBy = [ "multi-user.target" ]; # Run in multi-user mode.
   };
 
+  services.gnome.games.enable = true;
+  services.gnome.core-developer-tools.enable = true;
+  
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
   # virtualisation.vmware.host.enable = true;

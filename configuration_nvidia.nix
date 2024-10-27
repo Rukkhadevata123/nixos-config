@@ -627,6 +627,7 @@
     libsForQt5.full
     libsForQt5.qt5ct
     libsForQt5.qtstyleplugin-kvantum
+    libsForQt5.qt5.wrapQtAppsHook
     # libsForQt5.breeze-qt5
     # libsForQt5.breeze-gtk
     # libsForQt5.breeze-icons
@@ -634,6 +635,7 @@
     kdePackages.qt6ct
     kdePackages.qt6gtk2
     kdePackages.qtstyleplugin-kvantum
+    kdePackages.wrapQtAppsHook
     # kdePackages.breeze
     # kdePackages.breeze-gtk
     # kdePackages.breeze-icons

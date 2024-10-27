@@ -633,10 +633,13 @@
     kdePackages.full
     kdePackages.qt6ct
     kdePackages.qt6gtk2
-    kdePackages.breeze
-    kdePackages.breeze-gtk
-    kdePackages.breeze-icons
+    kdePackages.qtstyleplugin-kvantum
+    # kdePackages.breeze
+    # kdePackages.breeze-gtk
+    # kdePackages.breeze-icons
     papirus-icon-theme
+    alacritty
+    alacritty-theme
     stdenv.cc
     binutils
     htop
@@ -686,6 +689,7 @@
     gnomeExtensions.dash-to-dock
     gnomeExtensions.lunar-calendar
     gnomeExtensions.gsconnect
+    gnomeExtensions.toggle-alacritty
     gnomeExtensions.clipboard-indicator
     gnomeExtensions.blur-my-shell
     gnomeExtensions.coverflow-alt-tab
@@ -874,6 +878,7 @@
   system.stateVersion = "24.05"; # Did you read the comment?
 }
 # export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=lcd'
-# export LD_LIBRARY_PATH=$(find /nix/store -type d -name '*steam-run-fhs*' -exec echo -n {}'/usr/lib32:'{}'/usr/lib64:' \;)
+# export LD_LIBRARY_PATH=$(find /nix/store -type d -name '*steam-run-fhs*' -exec echo -n {}'/usr/lib32:'{}'/usr/lib64:' \;):$(find /nix/store -type d -name '*qtbase*' -exec echo -n {}'/lib:' \;)
 # kgx --tab
 # nix-shell -p ncurses5 flex bison elfutils openssl # kernel
+# export QT_QPA_PLATFORM_PLUGIN_PATH="/nix/store/xqhwd6vpxrk8ccc220gpzj9mavjvgckz-qtbase-5.15.15-bin/lib/qt-5.15.15/plugins/platforms"

@@ -27,7 +27,7 @@ in
     qt = {
       enable = true;
       platformTheme.name = "qt6ct";
-      style.name = "qt6gtk2"; # breeze gtk2
+      style.name = "kvantum"; # breeze gtk2 Fusion
     };
 
     xdg = {
@@ -37,13 +37,16 @@ in
         extraPortals = with pkgs; [
           xdg-desktop-portal-wlr
           xdg-desktop-portal-gtk
+          xdg-desktop-portal-gnome
+          xdg-desktop-portal-hyprland
+          xdg-desktop-portal-xapp
         ];
       };
     };
 
-    # xdg.configFile = {
-    #   "Kvantum/ArcDark".source = "${pkgs.arc-kde-theme}/share/Kvantum/ArcDark";
-    #   "Kvantum/kvantum.kvconfig".text = "[General]\ntheme=ArcDark";
-    # };
+    xdg.configFile = {
+      "Kvantum/Arc".source = "${pkgs.arc-kde-theme}/share/Kvantum/Arc";
+      "Kvantum/kvantum.kvconfig".text = "[General]\ntheme=Arc";
+    };
   };
 }

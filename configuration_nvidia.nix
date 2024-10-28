@@ -356,136 +356,144 @@
     })
   ];
 
-  programs.nix-ld = {
-    enable = true;
-    libraries = pkgs.steam-run.fhsenv.args.multiPkgs pkgs;
-  };
+  # programs.nix-ld = {
+  #   enable = true;
+  #   libraries = pkgs.steam-run.fhsenv.args.multiPkgs pkgs;
+  # };
 
-  # programs.nix-ld.enable = true;
-  # programs.nix-ld.libraries = with pkgs; [
-  #   SDL
-  #   SDL2
-  #   SDL2_image
-  #   SDL2_mixer
-  #   SDL2_ttf
-  #   SDL_image
-  #   SDL_mixer
-  #   SDL_ttf
-  #   acl
-  #   alsa-lib
-  #   at-spi2-atk
-  #   at-spi2-core
-  #   attr
-  #   atk
-  #   bzip2
-  #   cairo
-  #   cups
-  #   curl
-  #   curlWithGnuTls
-  #   dbus
-  #   dbus-glib
-  #   desktop-file-utils
-  #   e2fsprogs
-  #   expat
-  #   flac
-  #   fontconfig
-  #   freeglut
-  #   freetype
-  #   fribidi
-  #   fuse
-  #   fuse3
-  #   gdk-pixbuf
-  #   glew110
-  #   glib
-  #   gmp
-  #   gst_all_1.gst-plugins-base
-  #   gst_all_1.gst-plugins-ugly
-  #   gst_all_1.gstreamer
-  #   gtk2
-  #   harfbuzz
-  #   icu
-  #   keyutils.lib
-  #   libGL
-  #   libGLU
-  #   libappindicator-gtk2
-  #   libcaca
-  #   libcanberra
-  #   libcap
-  #   libclang.lib
-  #   libdbusmenu
-  #   libdrm
-  #   libgcrypt
-  #   libgpg-error
-  #   libidn
-  #   libjack2
-  #   libjpeg
-  #   libmikmod
-  #   libogg
-  #   libpng12
-  #   libpulseaudio
-  #   librsvg
-  #   libsamplerate
-  #   libsodium
-  #   libssh
-  #   libthai
-  #   libtheora
-  #   libtiff
-  #   libudev0-shim
-  #   libusb1
-  #   libuuid
-  #   libvdpau
-  #   libvorbis
-  #   libvpx
-  #   libxcrypt-legacy
-  #   libxkbcommon
-  #   libxml2
-  #   mesa
-  #   ncurses5
-  #   nspr
-  #   nss
-  #   openssl
-  #   p11-kit
-  #   pango
-  #   pixman
-  #   python3
-  #   speex
-  #   systemd
-  #   util-linux
-  #   stdenv.cc.cc
-  #   tbb
-  #   udev
-  #   vulkan-loader
-  #   wayland
-  #   xorg.libICE
-  #   xorg.libSM
-  #   xorg.libX11
-  #   xorg.libXScrnSaver
-  #   xorg.libXcomposite
-  #   xorg.libXcursor
-  #   xorg.libXdamage
-  #   xorg.libXext
-  #   xorg.libXfixes
-  #   xorg.libXft
-  #   xorg.libXi
-  #   xorg.libXinerama
-  #   xorg.libXmu
-  #   xorg.libXrandr
-  #   xorg.libXrender
-  #   xorg.libXt
-  #   xorg.libXtst
-  #   xorg.libXxf86vm
-  #   xorg.libpciaccess
-  #   xorg.libxcb
-  #   xorg.xcbutil
-  #   xorg.xcbutilimage
-  #   xorg.xcbutilkeysyms
-  #   xorg.xcbutilrenderutil
-  #   xorg.xcbutilwm
-  #   xorg.xkeyboardconfig
-  #   xz
-  #   zlib
-  #   zstd
-  # ];
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    SDL
+    SDL2
+    SDL2_image
+    SDL2_mixer
+    SDL2_ttf
+    SDL_image
+    SDL_mixer
+    SDL_ttf
+    acl
+    alsa-lib
+    at-spi2-atk
+    at-spi2-core
+    attr
+    atk
+    bzip2
+    cairo
+    cups
+    curl
+    curlWithGnuTls
+    dbus
+    dbus-glib
+    desktop-file-utils
+    e2fsprogs
+    expat
+    flac
+    fontconfig
+    freeglut
+    freetype
+    fribidi
+    fuse
+    fuse3
+    gdk-pixbuf
+    glew110
+    glib
+    gmp
+    gst_all_1.gst-plugins-base
+    gst_all_1.gst-plugins-ugly
+    gst_all_1.gstreamer
+    gtk2
+    gtk3
+    gtk4
+    gdk-pixbuf
+    harfbuzz
+    icu
+    keyutils.lib
+    kdePackages.full
+    libGL
+    libGLU
+    libappindicator-gtk2
+    libcaca
+    libcanberra
+    libcap
+    libclang.lib
+    libdbusmenu
+    libsForQt5.qt5.wrapQtAppsHook
+    kdePackages.wrapQtAppsHook
+    libdrm
+    libgcrypt
+    libgpg-error
+    libidn
+    libjack2
+    libjpeg
+    libmikmod
+    libsForQt5.full
+    libogg
+    libpng12
+    libpulseaudio
+    librsvg
+    libsamplerate
+    libsodium
+    libssh
+    libthai
+    libtheora
+    libtiff
+    libudev0-shim
+    libusb1
+    libuuid
+    libvdpau
+    libvorbis
+    libvpx
+    libxcrypt-legacy
+    libxkbcommon
+    libxml2
+    mesa
+    ncurses5
+    nspr
+    nss
+    openssl
+    openssl.dev
+    p11-kit
+    pango
+    pixman
+    python3
+    speex
+    systemd
+    util-linux
+    stdenv.cc.cc
+    tbb
+    udev
+    vulkan-loader
+    wayland
+    xorg.libICE
+    xorg.libSM
+    xorg.libX11
+    xorg.libXScrnSaver
+    xorg.libXcomposite
+    xorg.libXcursor
+    xorg.libXdamage
+    xorg.libXext
+    xorg.libXfixes
+    xorg.libXft
+    xorg.libXi
+    xorg.libXinerama
+    xorg.libXmu
+    xorg.libXrandr
+    xorg.libXrender
+    xorg.libXt
+    xorg.libXtst
+    xorg.libXxf86vm
+    xorg.libpciaccess
+    xorg.libxcb
+    xorg.xcbutil
+    xorg.xcbutilimage
+    xorg.xcbutilkeysyms
+    xorg.xcbutilrenderutil
+    xorg.xcbutilwm
+    xorg.xkeyboardconfig
+    xz
+    zlib
+    zstd
+  ];
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
@@ -536,7 +544,7 @@
     maven
     gradle
     gcc
-    microsoft-edge
+    # microsoft-edge
     rustup
     edk2-uefi-shell
     cmake
@@ -624,18 +632,18 @@
     typescript
     bibata-cursors
     qtcreator
-    libsForQt5.full
+    # libsForQt5.full
     libsForQt5.qt5ct
     libsForQt5.qtstyleplugin-kvantum
-    libsForQt5.qt5.wrapQtAppsHook
+    # libsForQt5.qt5.wrapQtAppsHook
     # libsForQt5.breeze-qt5
     # libsForQt5.breeze-gtk
     # libsForQt5.breeze-icons
-    kdePackages.full
+    # kdePackages.full
     kdePackages.qt6ct
     kdePackages.qt6gtk2
     kdePackages.qtstyleplugin-kvantum
-    kdePackages.wrapQtAppsHook
+    # kdePackages.wrapQtAppsHook
     # kdePackages.breeze
     # kdePackages.breeze-gtk
     # kdePackages.breeze-icons

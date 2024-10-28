@@ -833,6 +833,7 @@
       };
     }
   ];
+  boot.extraModprobeConfig = "options kvm_intel nested=1";
 
   # List services that you want to enable:
   # Enable the OpenSSH daemon.
@@ -855,10 +856,16 @@
   services.gnome.core-developer-tools.enable = true;
   
   virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
   programs.virt-manager.enable = true;
   # virtualisation.vmware.host.enable = true;
   virtualisation.docker.enable = true;
   virtualisation.waydroid.enable = true;
+  virtualisation.libvirtd.qemu = {
+    swtpm.enable = true;
+    ovmf.packages = [ pkgs.OVMFFull.fd ];
+  };
+
 
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = false;

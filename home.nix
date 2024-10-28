@@ -48,5 +48,11 @@ in
       "Kvantum/Arc".source = "${pkgs.arc-kde-theme}/share/Kvantum/Arc";
       "Kvantum/kvantum.kvconfig".text = "[General]\ntheme=Arc";
     };
+    
+    home.pointerCursor = {
+      gtk.enable = true;
+      package = pkgs.vanilla-dmz;
+      name = "Vanilla-DMZ";
+    };
   };
 }

@@ -173,6 +173,7 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.gnome.sessionPath = [ pkgs.gpaste ];
 
   # Configure keymap in X11.
   services.xserver.xkb = {
@@ -233,6 +234,8 @@
   programs.plotinus.enable = true;
 
   programs.thunderbird.enable = true;
+  
+	programs.gpaste.enable = true;
 
   programs.dconf.enable = true;
 
@@ -530,7 +533,7 @@
     hmcl
     xorg.xcalc
     termius
-    gpaste
+    # gpaste
     xorg.xhost
     # findutils
     mlocate # sudo addgroup mlocate
@@ -722,14 +725,24 @@
     # gnomeExtensions.launch-new-instance
     # gnomeExtensions.user-themes
     gnomeExtensions.vitals
-    # gnomeExtensions.easyScreenCast
+    gnomeExtensions.forge
+    gnomeExtensions.easyScreenCast
     # gnomeExtensions.fuzzy-app-search
+    gnomeExtensions.emoji-copy
     gnomeExtensions.just-perfection
     gnomeExtensions.user-avatar-in-quick-settings
     gnomeExtensions.weather-oclock
+    gnomeExtensions.shortcuts
+    gnomeExtensions.hide-top-bar
     gnomeExtensions.arcmenu
+    gnomeExtensions.improved-workspace-indicator
     gnomeExtensions.gnome-40-ui-improvements
     gnomeExtensions.legacy-gtk3-theme-scheme-auto-switcher
+    gnomeExtensions.no-overview
+    gnomeExtensions.bing-wallpaper-changer
+    gnomeExtensions.custom-accent-colors
+    gnomeExtensions.wallpaper-slideshow
+    gnomeExtensions.x11-gestures
     # gnomeExtensions.light-style
     # gnomeExtensions.removable-drive-menu
     # gnomeExtensions.screenshot-window-sizer

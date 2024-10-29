@@ -543,6 +543,13 @@
     gtk4
     v2ray
     v2raya
+    scenebuilder
+    javaPackages.openjfx21
+    libreoffice-qt6-fresh
+    lm_sensors
+    anydesk
+    marktext
+    gnome-boxes
     fastfetch
     # vscode-with-extensions
     jdk
@@ -664,7 +671,7 @@
     obsidian
     swtpm
     ninja
-    onlyoffice-bin
+    # onlyoffice-bin
     thefuck
     pandoc
     wl-clipboard

@@ -407,7 +407,7 @@
     gdk-pixbuf
     harfbuzz
     icu
-    pkg-config
+    # pkg-config
     keyutils.lib
     kdePackages.full
     libGL
@@ -537,6 +537,7 @@
     # xdg-desktop-portal-gnome
     # fish
     appimage-run
+    pkg-config
     v2ray
     v2raya
     fastfetch

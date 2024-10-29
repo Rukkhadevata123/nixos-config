@@ -407,6 +407,7 @@
     gdk-pixbuf
     harfbuzz
     icu
+    pkg-config
     keyutils.lib
     kdePackages.full
     libGL

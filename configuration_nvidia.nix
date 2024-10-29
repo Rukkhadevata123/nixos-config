@@ -401,10 +401,10 @@
     gst_all_1.gst-plugins-base
     gst_all_1.gst-plugins-ugly
     gst_all_1.gstreamer
-    gtk2
-    gtk3
-    gtk4
-    gdk-pixbuf
+    # gtk2
+    # gtk3
+    # gtk4
+    # gdk-pixbuf
     harfbuzz
     icu
     # pkg-config
@@ -538,6 +538,9 @@
     # fish
     appimage-run
     pkg-config
+    gtk2
+    gtk3
+    gtk4
     v2ray
     v2raya
     fastfetch

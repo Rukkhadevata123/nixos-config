@@ -528,10 +528,10 @@
     vlc
     # git
     # libclang
-    # clang
+    clang
     clang-tools
     # llvm
-    llvmPackages.clangWithLibcAndBasicRtAndLibcxx
+    # llvmPackages.clangWithLibcAndBasicRtAndLibcxx
     lldb
     # firefox
     libguestfs

@@ -671,6 +671,7 @@
     alejandra
     zathura
     bashInteractive
+    touchegg
     obsidian
     swtpm
     ninja
@@ -734,8 +735,8 @@
     gnomeExtensions.weather-oclock
     gnomeExtensions.shortcuts
     gnomeExtensions.hide-top-bar
-    gnomeExtensions.arcmenu
-    gnomeExtensions.improved-workspace-indicator
+    # gnomeExtensions.arcmenu
+    # gnomeExtensions.improved-workspace-indicator
     gnomeExtensions.gnome-40-ui-improvements
     gnomeExtensions.legacy-gtk3-theme-scheme-auto-switcher
     gnomeExtensions.no-overview

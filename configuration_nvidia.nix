@@ -653,6 +653,7 @@
     typescript
     bibata-cursors
     qtcreator
+    clash-verge-rev
     # libsForQt5.full
     libsForQt5.qt5ct
     libsForQt5.qtstyleplugin-kvantum

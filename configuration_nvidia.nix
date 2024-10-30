@@ -282,7 +282,7 @@
 
   environment.variables.EDITOR = "nvim";
   environment.variables.MOZ_ENABLE_WAYLAND = "1";
-  # environment.variables.CPLUS_INCLUDE_PATH = "${gccForLibs}/include/c++/${gccForLibs.version}:${gccForLibs}/include/c++/${gccForLibs.version}/x86_64-unknown-linux-gnu:${gccForLibs}/lib/gcc/x86_64-unknown-linux-gnu/${gccForLibs.version}/include:${stdenv.cc.libc.dev}/include";
+  # environment.variables.CPLUS_INCLUDE_PATH = "${stdenv.cc.cc}/include/c++/${stdenv.cc.cc.version}:${stdenv.cc.cc}/include/c++/${stdenv.cc.cc.version}/x86_64-unknown-linux-gnu:${stdenv.cc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${stdenv.cc.cc.version}/include:${stdenv.cc.libc.dev}/include";
   environment.variables._JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
   # environment.variables.QT_QPA_PLATFORM_PLUGIN_PATH="${libsForQt5.qt5.qtbase}/lib/qt-${libsForQt5.qt5.qtbase.version}/plugins/platforms";
   # environment.variables.GTK3_MODULES = "${pkgs.plotinus}/lib/libplotinus.so";

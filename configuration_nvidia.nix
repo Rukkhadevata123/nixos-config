@@ -282,6 +282,9 @@
 
   environment.variables.EDITOR = "nvim";
   environment.variables.MOZ_ENABLE_WAYLAND = "1";
+  # environment.variables.CPLUS_INCLUDE_PATH = "${gccForLibs}/include/c++/${gccForLibs.version}:${gccForLibs}/include/c++/${gccForLibs.version}/x86_64-unknown-linux-gnu:${gccForLibs}/lib/gcc/x86_64-unknown-linux-gnu/${gccForLibs.version}/include:${stdenv.cc.libc.dev}/include";
+  environment.variables._JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
+  # environment.variables.QT_QPA_PLATFORM_PLUGIN_PATH="${libsForQt5.qt5.qtbase}/lib/qt-${libsForQt5.qt5.qtbase.version}/plugins/platforms";
   # environment.variables.GTK3_MODULES = "${pkgs.plotinus}/lib/libplotinus.so";
   # environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs.neovim = {
@@ -654,7 +657,7 @@
     typescript
     bibata-cursors
     qtcreator
-    clash-verge-rev
+    # clash-verge-rev
     # libsForQt5.full
     libsForQt5.qt5ct
     libsForQt5.qtstyleplugin-kvantum
@@ -928,8 +931,7 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 }
-# export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=lcd'
+
 # export LD_LIBRARY_PATH=$(find /nix/store -type d -name '*steam-run-fhs*' -exec echo -n {}'/usr/lib32:'{}'/usr/lib64:' \;):$(find /nix/store -type d -name '*qtbase*' -exec echo -n {}'/lib:' \;)
 # kgx --tab
 # nix-shell -p ncurses5 flex bison elfutils openssl # kernel
-# export QT_QPA_PLATFORM_PLUGIN_PATH="/nix/store/xqhwd6vpxrk8ccc220gpzj9mavjvgckz-qtbase-5.15.15-bin/lib/qt-5.15.15/plugins/platforms"

@@ -517,7 +517,7 @@
     emacs
     jq
     coreutils-full
-    coreutils-prefixed
+    # coreutils-prefixed
     xclip
     valgrind
     vim
@@ -526,8 +526,9 @@
     # git
     # libclang
     # clang
-    # clang-tools
+    clang-tools
     # llvm
+    llvmPackages.clangWithLibcAndBasicRtAndLibcxx
     lldb
     # firefox
     libguestfs
@@ -553,7 +554,7 @@
     v2ray
     v2raya
     scenebuilder
-    javaPackages.openjfx21
+    # javaPackages.openjfx21
     libreoffice-qt6-fresh
     lm_sensors
     anydesk
@@ -689,10 +690,10 @@
     # thunderbird # 24.05
     filezilla
     motrix
-    llvmPackages_latest.llvm
+    # llvmPackages_latest.llvm
     # neovim
     kdePackages.filelight
-    yesplaymusic
+    # yesplaymusic
     (
       (pkgs.ffmpeg-full.override {
         withUnfree = true;

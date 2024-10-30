@@ -727,9 +727,9 @@
     # gnomeExtensions.user-themes
     gnomeExtensions.vitals
     gnomeExtensions.forge
-    gnomeExtensions.easyScreenCast
+    # gnomeExtensions.easyScreenCast # broken
     # gnomeExtensions.fuzzy-app-search
-    gnomeExtensions.emoji-copy
+    # gnomeExtensions.emoji-copy
     gnomeExtensions.just-perfection
     gnomeExtensions.user-avatar-in-quick-settings
     gnomeExtensions.weather-oclock
@@ -743,7 +743,7 @@
     gnomeExtensions.bing-wallpaper-changer
     gnomeExtensions.custom-accent-colors
     gnomeExtensions.wallpaper-slideshow
-    gnomeExtensions.x11-gestures
+    # gnomeExtensions.x11-gestures
     # gnomeExtensions.light-style
     # gnomeExtensions.removable-drive-menu
     # gnomeExtensions.screenshot-window-sizer

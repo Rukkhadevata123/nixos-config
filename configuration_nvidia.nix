@@ -71,6 +71,12 @@
     # Honkai Star Rail analytics servers (cn)
     0.0.0.0 log-upload.mihoyo.com
     0.0.0.0 public-data-api.mihoyo.com
+    
+    0.0.0.0 log-upload.mihoyo.com
+    0.0.0.0 uspider.yuanshen.com
+    0.0.0.0 ys-log-upload.mihoyo.com
+    0.0.0.0 dispatchcnglobal.yuanshen.com
+    # 0.0.0.0 webstatic.mihoyo.com
   '';
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 

@@ -218,6 +218,7 @@
       "libvirtd"
       "docker"
       "mlocate"
+      "input"
     ];
     # shell = pkgs.fish;
     packages = with pkgs; [
@@ -601,6 +602,7 @@
     gst_all_1.gst-vaapi
     openssl.dev
     pkg-config
+    zotero
     wqy_zenhei
     wqy_microhei
     # liberation_ttf_v1
@@ -682,7 +684,7 @@
     alejandra
     zathura
     bashInteractive
-    touchegg
+    # touchegg
     obsidian
     swtpm
     ninja

@@ -179,6 +179,19 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.gnome.extraGSettingsOverridePackages = [ pkgs.mutter ];
+  services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
+    [org.gnome.mutter]
+    experimental-features=['variable-refresh-rate', 'scale-monitor-framebuffer']
+    
+    [org.gnome.desktop.interface]
+    text-scaling-factor=1.25
+    scaling-factor=1
+    
+    [org.gnome.settings-daemon.plugins.xsettings]
+    overrides=[{'Gdk/WindowScalingFactor', <1>}]
+    
+    '';
   services.xserver.desktopManager.gnome.sessionPath = [ pkgs.gpaste ];
 
   # Configure keymap in X11.
@@ -350,24 +363,24 @@
   # Allow unfree packages.
   nixpkgs.config.allowUnfree = true;
 
-  nixpkgs.overlays = [
-    # GNOME 46: triple-buffering-v4-46
-    (final: prev: {
-      gnome = prev.gnome.overrideScope (
-        gnomeFinal: gnomePrev: {
-          mutter = gnomePrev.mutter.overrideAttrs (old: {
-            src = pkgs.fetchFromGitLab {
-              domain = "gitlab.gnome.org";
-              owner = "vanvugt";
-              repo = "mutter";
-              rev = "triple-buffering-v4-46";
-              hash = "sha256-fkPjB/5DPBX06t7yj0Rb3UEuu5b9mu3aS+jhH18+lpI=";
-            };
-          });
-        }
-      );
-    })
-  ];
+  # nixpkgs.overlays = [
+  #   # GNOME 46: triple-buffering-v4-46
+  #   (final: prev: {
+  #     gnome = prev.gnome.overrideScope (
+  #       gnomeFinal: gnomePrev: {
+  #         mutter = gnomePrev.mutter.overrideAttrs (old: {
+  #           src = pkgs.fetchFromGitLab {
+  #             domain = "gitlab.gnome.org";
+  #             owner = "vanvugt";
+  #             repo = "mutter";
+  #             rev = "triple-buffering-v4-46";
+  #             hash = "sha256-fkPjB/5DPBX06t7yj0Rb3UEuu5b9mu3aS+jhH18+lpI=";
+  #           };
+  #         });
+  #       }
+  #     );
+  #   })
+  # ];
 
   # programs.nix-ld = {
   #   enable = true;
@@ -552,6 +565,7 @@
     # fish
     appimage-run
     pkg-config
+    vrrtest
     gtk2
     gtk3
     gtk4

@@ -857,7 +857,7 @@
     type = "ibus";
     ibus.engines = with pkgs.ibus-engines; [
       libpinyin
-      mozc
+      mozc-ut
       rime
     ];
   };

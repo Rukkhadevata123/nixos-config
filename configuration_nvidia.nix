@@ -180,6 +180,9 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   services.xserver.desktopManager.gnome.extraGSettingsOverridePackages = [ pkgs.mutter ];
+  # bash: gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <1>}]"
+  # bash: gsettings set org.gnome.desktop.interface scaling-factor 1
+  # bash: gsettings set org.gnome.desktop.interface text-scaling-factor 1.25
   services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
     [org.gnome.mutter]
     experimental-features=['variable-refresh-rate', 'scale-monitor-framebuffer']
@@ -187,10 +190,6 @@
     [org.gnome.desktop.interface]
     text-scaling-factor=1.25
     scaling-factor=1
-    
-    [org.gnome.settings-daemon.plugins.xsettings]
-    overrides=[{'Gdk/WindowScalingFactor', <1>}]
-    
     '';
   services.xserver.desktopManager.gnome.sessionPath = [ pkgs.gpaste ];
 

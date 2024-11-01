@@ -636,7 +636,7 @@
     arphic-uming
     openssl
     texliveFull
-    conda
+    python312Packages.conda
     gitRepo
     gnupg
     autoconf

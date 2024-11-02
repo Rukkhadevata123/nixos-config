@@ -185,7 +185,7 @@
   # bash: gsettings set org.gnome.desktop.interface text-scaling-factor 1.25
   services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
     [org.gnome.mutter]
-    experimental-features=['variable-refresh-rate', 'scale-monitor-framebuffer']
+    experimental-features=['variable-refresh-rate', 'scale-monitor-framebuffer', 'kms-modifiers', 'autoclose-xwayland']
     
     [org.gnome.desktop.interface]
     text-scaling-factor=1.25

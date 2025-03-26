@@ -13,7 +13,7 @@ in
 
   home-manager.users.yoimiya = {
     # The home.stateVersion option does not have a default and must be set
-    home.stateVersion = "24.11";
+    home.stateVersion = "25.05";
     # home.enableNixpkgsReleaseCheck = false;
     programs.home-manager.enable = true;
     # Here goes the rest of your home-manager config, e.g. home.packages = [ pkgs.foo ];
@@ -24,10 +24,31 @@ in
       userEmail = "3230102179@zju.edu.cn";
     };
 
-    qt = {
+    programs.zsh = {
       enable = true;
-      platformTheme.name = "qt6ct";
-      style.name = "kvantum"; # breeze gtk2 Fusion
+      enableCompletion = true;
+      autosuggestion.enable = true;
+      autosuggestion.highlight = "fg=#ff00ff,bg=cyan,bold,underline";
+      syntaxHighlighting.enable = true;
+
+      shellAliases = {
+        ll = "ls -l";
+        edit = "sudo -e";
+        update = "sudo nixos-rebuild switch --upgrade";
+      };
+
+      history.size = 10000;
+      history.ignoreAllDups = true;
+      history.path = "$HOME/.zsh_history";
+      history.ignorePatterns = [
+        "rm *"
+        "pkill *"
+        "cp *"
+      ];
+      historySubstringSearch.enable = true;
+      oh-my-zsh.enable = true;
+      oh-my-zsh.theme = "robbyrussell";
+
     };
 
     xdg = {
@@ -43,16 +64,6 @@ in
         ];
       };
     };
-
-    xdg.configFile = {
-      "Kvantum/Arc".source = "${pkgs.arc-kde-theme}/share/Kvantum/Arc";
-      "Kvantum/kvantum.kvconfig".text = "[General]\ntheme=Arc";
-    };
-    
-    home.pointerCursor = {
-      gtk.enable = true;
-      package = pkgs.vanilla-dmz;
-      name = "Vanilla-DMZ";
-    };
   };
 }
+

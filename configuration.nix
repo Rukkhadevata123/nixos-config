@@ -186,6 +186,8 @@
     ];
     packages = with pkgs; [
       vscode.fhs
+      qq
+      wechat-uos
       #  thunderbird
     ];
   };

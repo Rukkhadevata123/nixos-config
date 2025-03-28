@@ -16,14 +16,16 @@
 
   # Bootloader.
   boot.loader = {
+    systemd-boot.enable = false;
     grub.device = "nodev";
     grub.enable = true;
     grub.efiSupport = true;
+    grub.efiInstallAsRemovable = true;
     grub.configurationName = "Unstable";
     grub.useOSProber = true;
     grub.memtest86.enable = true;
     grub.theme = "/etc/nixos/grubtheme/Tribbie";
-    efi.canTouchEfiVariables = true;
+    # efi.canTouchEfiVariables = true;
   };
 
   networking.hostName = "nixos"; # Define your hostname.
@@ -104,6 +106,8 @@
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
+  services.locate.enable = true;
+  services.locate.package = pkgs.mlocate;
 
   # About Graphics
   services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
@@ -263,9 +267,11 @@
     clang
     clang-tools
     cmake
+    conda
     corefonts
     coreutils-full
     cowsay
+    cudatoolkit
     dnsutils
     edk2-uefi-shell
     emacs
@@ -274,6 +280,7 @@
     fastfetch
     file
     filezilla
+    findutils
     fzf
     gawk
     gcc
@@ -344,6 +351,7 @@
     pciutils
     p7zip
     pkg-config
+    plocate
     prismlauncher
     procps
     protonup-qt
@@ -422,7 +430,6 @@
     # libsForQt5.qt5ct
     # libsForQt5.qtstyleplugin-kvantum
     # libsForQt5.xwaylandvideobridge
-    # cudatoolkit
     # cudaPackages.cudatoolkit
     # gns3-gui
     # gns3-server
@@ -435,14 +442,16 @@
     # libsForQt5.breeze-qt5
     # libsForQt5.breeze-gtk
     # libsForQt5.breeze-icons
-    # (chromium.override {
-    #   enableWideVine = true;
-    #   commandLineArgs = [
-    #     "--enable-features=VaapiVideoDecodeLinuxGL"
-    #     "--ignore-gpu-blocklist"
-    #     "--enable-zero-copy"
-    #   ];
-    # })
+    (chromium.override {
+      enableWideVine = true;
+      commandLineArgs = [
+        "--enable-features=AcceleratedVideoEncoder,VaapiOnNvidiaGPUs,VaapiIgnoreDriverChecks,Vulkan,DefaultANGLEVulkan,VulkanFromANGLE"
+        "--enable-features=VaapiIgnoreDriverChecks,VaapiVideoDecoder,PlatformHEVCDecoderSupport"
+        "--enable-features=UseMultiPlaneFormatForHardwareVideo"
+        "--ignore-gpu-blocklist"
+        "--enable-zero-copy"
+      ];
+    })
   ];
 
   # Font packages configuration.

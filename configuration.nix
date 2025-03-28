@@ -57,10 +57,10 @@
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.httpProxy = "http://127.0.0.1:7897";
-  # networking.proxy.httpsProxy = "http://127.0.0.1:7897";
-  # networking.proxy.allProxy = "socks5://127.0.0.1:7897";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  networking.proxy.httpProxy = "http://127.0.0.1:7897";
+  networking.proxy.httpsProxy = "http://127.0.0.1:7897";
+  networking.proxy.allProxy = "socks5://127.0.0.1:7897";
+  networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -106,7 +106,8 @@
   services.desktopManager.plasma6.enable = true;
 
   # About Graphics
-  services.xserver.videoDrivers = [ "modesetting" ];
+  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+  hardware.nvidia.open = true;
   hardware.graphics.enable32Bit = true;
   hardware.graphics.enable = true;
   hardware.graphics.extraPackages32 = with pkgs.pkgsi686Linux; [
@@ -117,20 +118,21 @@
     intel-media-driver
     intel-vaapi-driver
     intel-compute-runtime
+    nvidia-vaapi-driver
   ];
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "iHD";
   };
 
-#   hardware.nvidia.prime = {
-#     offload = {
-#       enable = true;
-#       enableOffloadCmd = true;
-#     };
-#
-#     intelBusId = "PCI:0:2:0";
-#     nvidiaBusId = "PCI:1:0:0"; # Specify the PCI address of the Nvidia GPU.
-#   };
+  hardware.nvidia.prime = {
+    offload = {
+      enable = true;
+      enableOffloadCmd = true;
+    };
+
+    intelBusId = "PCI:0:2:0";
+    nvidiaBusId = "PCI:1:0:0"; # Specify the PCI address of the Nvidia GPU.
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {

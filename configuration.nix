@@ -262,12 +262,14 @@
     bashInteractive
     bibata-cursors
     binutils
+    bison
     bleachbit
     btop
     busybox
     cachix
     clang
     clang-tools
+    clinfo
     cmake
     conda
     corefonts
@@ -275,7 +277,9 @@
     cowsay
     cudatoolkit
     dnsutils
+    dxvk
     edk2-uefi-shell
+    elfutils
     emacs
     ethtool
     eza
@@ -283,8 +287,10 @@
     file
     filezilla
     findutils
+    flex
     fzf
     gawk
+    gamemode
     gcc
     gdb
     gimp
@@ -298,6 +304,7 @@
     gnused
     gnutar
     go
+    google-chrome
     gparted
     gperf
     gradle
@@ -308,6 +315,7 @@
     gtk2
     gtk3
     gtk4
+    hashcat
     hexo-cli
     hmcl
     htop
@@ -326,6 +334,7 @@
     ldns
     libguestfs
     libreoffice-qt6-fresh
+    libxcrypt
     lldb
     lm_sensors
     lshw
@@ -334,15 +343,20 @@
     m4
     marktext
     maven
+    meson
+    microsoft-edge
     mlocate
     motrix
+    mpv
     mtr
+    ncurses5
     neofetch
     neovim
     ninja
     nix-output-monitor
     nmap
     nodejs
+    nvtopPackages.full
     nnn
     obsidian
     openssl
@@ -369,6 +383,7 @@
     sysstat
     termius
     texliveFull
+    tealdeer
     thefuck
     tree
     typescript
@@ -382,6 +397,8 @@
     vdpauinfo
     vim
     vlc
+    vkd3d
+    vkd3d-proton
     vulkan-tools
     wget
     which
@@ -400,8 +417,10 @@
     xorg.xhost
     xz
     yaru-theme
+    yt-dlp
     yq-go
     zathura
+    zenity
     zip
     zotero
     zstd

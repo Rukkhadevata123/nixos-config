@@ -183,6 +183,7 @@
       "docker"
       "mlocate"
       "input"
+      "adbusers"
     ];
     packages = with pkgs; [
       vscode.fhs
@@ -193,6 +194,7 @@
   };
 
   # Install firefox.
+  programs.adb.enable = true;
   programs.firefox.enable = true;
   programs.plotinus.enable = true;
   programs.java.enable = true;
@@ -375,6 +377,7 @@
     qtcreator
     ripgrep
     rustup
+    scrcpy
     socat
     spice-vdagent
     steam-run

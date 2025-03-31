@@ -391,6 +391,8 @@
     tree
     typescript
     ubuntu-themes
+    unrar
+    unrar-wrapper
     unzip
     usbutils
     util-linux

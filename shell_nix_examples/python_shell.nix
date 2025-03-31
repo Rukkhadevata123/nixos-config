@@ -39,6 +39,7 @@ in pkgs.mkShell {
 #   exec ${pkgs.python3}/bin/python "$@"
 #   '')
 
+  # export CUDA_PATH=${pkgs.cudatoolkit}
   # Add proxy environment variables
   shellHook = ''
     export http_proxy="http://127.0.0.1:7897"
@@ -66,7 +67,7 @@ in pkgs.mkShell {
       pkgs.xorg.libX11
     ]}
     export NIX_LD=${pkgs.glibc}/lib/ld-linux-x86-64.so.2
-    # export CUDA_PATH=${pkgs.cudatoolkit}
+
 
     # Python wrapper for nix-ld
     python() {

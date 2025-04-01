@@ -108,6 +108,8 @@
   services.desktopManager.plasma6.enable = true;
   services.locate.enable = true;
   services.locate.package = pkgs.mlocate;
+  services.flatpak.enable = true;
+  # services.onlyoffice.enable = true;
 
   # About Graphics
   services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
@@ -187,6 +189,7 @@
     ];
     packages = with pkgs; [
       vscode.fhs
+      vscodium-fhs
       qq
       wechat-uos
       #  thunderbird
@@ -279,6 +282,8 @@
     cowsay
     cudatoolkit
     dnsutils
+    dotnet-sdk
+    # dotnetCorePackages.sdk_9_0-bin
     dxvk
     edk2-uefi-shell
     elfutils
@@ -290,11 +295,13 @@
     filezilla
     findutils
     flex
+    foliate
     fzf
     gawk
     gamemode
     gcc
     gdb
+    ghostty
     gimp
     git
     gitRepo
@@ -311,6 +318,8 @@
     gperf
     gradle
     gnome-console
+    gnome-disk-utility
+    gnome-software
     gnome-terminal
     gnome-text-editor
     gnuchess
@@ -333,6 +342,9 @@
     kdePackages.qt6gtk2
     kdePackages.qtstyleplugin-kvantum
     kdePackages.xwaylandvideobridge
+    kitty
+    kitty-themes
+    libva-utils
     ldns
     libguestfs
     libreoffice-qt6-fresh
@@ -351,6 +363,7 @@
     motrix
     mpv
     mtr
+    nautilus
     ncurses5
     neofetch
     neovim
@@ -370,10 +383,13 @@
     p7zip
     pkg-config
     plocate
+    powershell
     prismlauncher
     procps
     protonup-qt
+    putty
     python3
+    qbittorrent-enhanced
     qtcreator
     ripgrep
     rustup
@@ -389,6 +405,7 @@
     tealdeer
     thefuck
     tree
+    tmux
     typescript
     ubuntu-themes
     unrar
@@ -415,9 +432,11 @@
     wineWowPackages.stagingFull
     winetricks
     wl-clipboard
+    # wpsoffice-cn
     wqy_microhei
     wqy_zenhei
     xclip
+    xfce.thunar
     xorg.xcalc
     xorg.xhost
     xz
@@ -459,7 +478,7 @@
     # cudaPackages.cudatoolkit
     # gns3-gui
     # gns3-server
-    # onlyoffice-bin
+
     # libsForQt5.full
     # wineWowPackages.staging
     # wineWowPackages.waylandFull
@@ -481,9 +500,22 @@
   ];
 
   # Font packages configuration.
+  system.userActivationScripts = {
+    copy-fonts-local-share = {
+      text = ''
+        rm -rf ~/.local/share/fonts
+        mkdir -p ~/.local/share/fonts
+        cp ${pkgs.corefonts}/share/fonts/truetype/* ~/.local/share/fonts/
+        chmod 544 ~/.local/share/fonts
+        chmod 444 ~/.local/share/fonts/*
+      '';
+    };
+  };
   fonts = {
     fontconfig.useEmbeddedBitmaps = true;
+    fontDir.enable = true;
     packages = with pkgs; [
+      corefonts
       dina-font
       fira-code
       fira-code-symbols
@@ -788,6 +820,15 @@
 
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = false;
+
+  # Flathub
+  systemd.services.flatpak-repo = {
+    wantedBy = [ "multi-user.target" ];
+    path = [ pkgs.flatpak ];
+    script = ''
+      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    '';
+  };
 
   # V2Ray service configuration.
   systemd.services.v2ray = {

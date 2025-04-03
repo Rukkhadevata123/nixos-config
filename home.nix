@@ -2,11 +2,9 @@
   config,
   pkgs,
   ...
-}:
-let
+}: let
   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
-in
-{
+in {
   imports = [
     (import "${home-manager}/nixos")
   ];
@@ -32,30 +30,30 @@ in
       syntaxHighlighting.enable = true;
 
       shellAliases = {
-        la="ls -A";
+        la = "ls -A";
         ll = "ls -l";
         edit = "sudo -e";
         cpconfig = "sudo cp ~/nixos-config/home.nix /etc/nixos/home.nix && sudo cp ~/nixos-config/configuration.nix /etc/nixos/configuration.nix";
         update = "sudo nixos-rebuild switch --upgrade";
         garbage = "sudo nix-collect-garbage -d";
         rm = "rm -i";
-        gs="git status";
-        ga="git add";
-        gc="git commit -m";
-        gp="git push";
-        gpl="git pull";
-        gst="git stash";
-        gsp="git stash; git pull";
-        gcheck="git checkout";
-        gcredential="git config credential.helper store";
-        cp="cp -i";
-        df="df -h";
-        free="free -m";
-        grep="grep --color=auto";
-        fgrep="fgrep --color=auto";
-        egrep="egrep --color=auto";
-        diff="diff --color=auto";
-        ip="ip --color=auto";
+        gs = "git status";
+        ga = "git add";
+        gc = "git commit -m";
+        gp = "git push";
+        gpl = "git pull";
+        gst = "git stash";
+        gsp = "git stash; git pull";
+        gcheck = "git checkout";
+        gcredential = "git config credential.helper store";
+        cp = "cp -i";
+        df = "df -h";
+        free = "free -m";
+        grep = "grep --color=auto";
+        fgrep = "fgrep --color=auto";
+        egrep = "egrep --color=auto";
+        diff = "diff --color=auto";
+        ip = "ip --color=auto";
       };
 
       history.size = 10000;
@@ -68,9 +66,8 @@ in
       ];
       historySubstringSearch.enable = true;
       oh-my-zsh.enable = true;
-      oh-my-zsh.plugins = [ "git" "python" "man" "thefuck" ];
+      oh-my-zsh.plugins = ["git" "python" "man" "thefuck"];
       oh-my-zsh.theme = "robbyrussell";
-
     };
 
     xdg = {
@@ -88,4 +85,3 @@ in
     };
   };
 }
-

@@ -4,14 +4,34 @@
 {
   config,
   pkgs,
+  lib,
   ...
-}:
-{
+}: let
+  # 定义一个开关变量
+  enableVFIO = false; # 设置为 true 使用直通配置，false 使用原始配置
+  #   nix-software-center = import (pkgs.fetchFromGitHub {
+  #     owner = "snowfallorg";
+  #     repo = "nix-software-center";
+  #     rev = "0.1.2";
+  #     sha256 = "xiqF1mP8wFubdsAQ1BmfjzCgOD3YZf7EGWl9i69FTls=";
+  #   }) {};
+  #   nixos-conf-editor = import (pkgs.fetchFromGitHub {
+  #     owner = "snowfallorg";
+  #     repo = "nixos-conf-editor";
+  #     rev = "0.1.2";
+  #     sha256 = "sha256-/ktLbmF1pU3vFHeGooDYswJipNE2YINm0WpF9Wd1gw8=";
+  #   }) {};
+  nixvim = import (builtins.fetchGit {
+    url = "https://github.com/nix-community/nixvim";
+    # When using a different channel you can use `ref = "nixos-<version>"` to set it here
+  });
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./home.nix
     ./nix-alien.nix
+    nixvim.nixosModules.nixvim
   ];
 
   # Bootloader.
@@ -112,7 +132,7 @@
   # services.onlyoffice.enable = true;
 
   # About Graphics
-  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+  services.xserver.videoDrivers = ["modesetting" "nvidia"];
   hardware.nvidia.open = true;
   hardware.graphics.enable32Bit = true;
   hardware.graphics.enable = true;
@@ -171,7 +191,7 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.zsh.enable = true;
-  environment.pathsToLink = [ "/share/zsh" ];
+  environment.pathsToLink = ["/share/zsh"];
   users.defaultUserShell = pkgs.zsh;
   users.users.yoimiya = {
     isNormalUser = true;
@@ -205,6 +225,12 @@
   programs.clash-verge.enable = true;
   programs.clash-verge.autoStart = false;
   programs.clash-verge.package = pkgs.clash-verge-rev;
+  programs.nixvim = {
+    enable = true;
+
+    colorschemes.catppuccin.enable = true;
+    plugins.lualine.enable = true;
+  };
 
   programs.firefox.wrapperConfig = {
     pipewireSupport = true;
@@ -229,7 +255,6 @@
     libraries = pkgs.steam-run.args.multiPkgs pkgs;
   };
 
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -248,13 +273,14 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   # environment.variables.CPLUS_INCLUDE_PATH = "${stdenv.cc.cc}/include/c++/${stdenv.cc.cc.version}:${stdenv.cc.cc}/include/c++/${stdenv.cc.cc.version}/x86_64-unknown-linux-gnu:${stdenv.cc.cc}/lib/gcc/x86_64-unknown-linux-gnu/${stdenv.cc.cc.version}/include:${stdenv.cc.libc.dev}/include";
   # environment.variables.QT_QPA_PLATFORM_PLUGIN_PATH="${libsForQt5.qt5.qtbase}/lib/qt-${libsForQt5.qt5.qtbase.version}/plugins/platforms";
   # environment.variables.GTK3_MODULES = "${pkgs.plotinus}/lib/libplotinus.so";
   # environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  environment.shells = with pkgs; [ zsh ];
+  environment.shells = with pkgs; [zsh];
   environment.systemPackages = with pkgs; [
+    adwaita-icon-theme
     alejandra
     alacritty
     alacritty-theme
@@ -281,6 +307,7 @@
     coreutils-full
     cowsay
     cudatoolkit
+    devbox
     dnsutils
     dotnet-sdk
     # dotnetCorePackages.sdk_9_0-bin
@@ -351,6 +378,7 @@
     libxcrypt
     lldb
     lm_sensors
+    looking-glass-client
     lshw
     lsof
     ltrace
@@ -366,9 +394,11 @@
     nautilus
     ncurses5
     neofetch
-    neovim
+    nil
     ninja
+    # nixos-conf-editor
     nix-output-monitor
+    # nix-software-center
     nmap
     nodejs
     nvtopPackages.full
@@ -390,6 +420,7 @@
     putty
     python3
     qbittorrent-enhanced
+    qqmusic
     qtcreator
     ripgrep
     rustup
@@ -404,6 +435,7 @@
     texliveFull
     tealdeer
     thefuck
+    tigervnc
     tree
     tmux
     typescript
@@ -452,7 +484,8 @@
       (pkgs.ffmpeg-full.override {
         withUnfree = true;
         withOpengl = true;
-      }).overrideAttrs
+      })
+      .overrideAttrs
       (_: {
         doCheck = false;
       })
@@ -771,6 +804,7 @@
   zramSwap.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.extraModulePackages = with config.boot.kernelPackages; [kvmfr];
   boot.kernel.sysctl = {
     "kernel.sysrq" = 1;
     "vm.max_map_count" = 2147483642;
@@ -786,20 +820,45 @@
       };
     }
   ];
-  boot.extraModprobeConfig = "options kvm_intel nested=1";
 
-  boot.kernelParams = [
-    "quiet"
-    "splash"
-    "usbcore.blinkenlights=1"
-    "qxl"
-    "virtio-gpu"
-    "virtio"
-    "virtio_scsi"
-    "virtio_blk"
-    "virtio_pci"
-    "virtio_net"
-    "virtio_ring"
+  # 公共配置 (无论enableVFIO为何值都会生效)
+  boot.extraModprobeConfig = lib.mkMerge [
+    "options kvm_intel nested=1"
+    (lib.mkIf enableVFIO ''
+      options vfio-pci ids=10de:28e1,10de:22be
+      softdep nvidia pre: vfio-pci
+      options kvmfr static_size_mb=32
+    '')
+  ];
+
+  boot.kernelParams = lib.mkMerge [
+    [
+      "quiet"
+      "splash"
+      "usbcore.blinkenlights=1"
+      "qxl"
+      "virtio-gpu"
+      "virtio"
+      "virtio_scsi"
+      "virtio_blk"
+      "virtio_pci"
+      "virtio_net"
+      "virtio_ring"
+    ]
+    (lib.mkIf enableVFIO [
+      "intel_iommu=on"
+      "iommu=pt"
+      "vfio_pci.ids=10de:28e1,10de:22be"
+      "vfio_iommu_type1.allow_unsafe_interrupts=1"
+      "kvm.ignore_msrs=1"
+    ])
+  ];
+
+  # 仅在enableVFIO为true时添加的配置
+  boot.initrd.kernelModules = lib.mkIf enableVFIO [
+    "vfio_pci"
+    "vfio"
+    "vfio_iommu_type1"
   ];
 
   virtualisation.libvirtd.enable = true;
@@ -810,7 +869,7 @@
   virtualisation.waydroid.enable = true;
   virtualisation.libvirtd.qemu = {
     swtpm.enable = true;
-    ovmf.packages = [ pkgs.OVMFFull.fd ];
+    ovmf.packages = [pkgs.OVMFFull.fd];
   };
 
   # Enable the OpenSSH daemon.
@@ -823,8 +882,8 @@
 
   # Flathub
   systemd.services.flatpak-repo = {
-    wantedBy = [ "multi-user.target" ];
-    path = [ pkgs.flatpak ];
+    wantedBy = ["multi-user.target"];
+    path = [pkgs.flatpak];
     script = ''
       flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
     '';
@@ -833,14 +892,14 @@
   # V2Ray service configuration.
   systemd.services.v2ray = {
     description = "V2Ray Service";
-    after = [ "network.target" ]; # Run after network is up.
+    after = ["network.target"]; # Run after network is up.
 
     serviceConfig = {
       ExecStart = "${pkgs.v2ray}/bin/v2ray run"; # Start V2Ray.
       Restart = "always"; # Restart on failure.
     };
 
-    wantedBy = [ "multi-user.target" ]; # Run in multi-user mode.
+    wantedBy = ["multi-user.target"]; # Run in multi-user mode.
   };
 
   nixpkgs.config.permittedInsecurePackages = [
@@ -861,7 +920,6 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
 }
-
 # export LD_LIBRARY_PATH=$(find /nix/store -type d -name '*steam-run-fhs*' -exec echo -n {}'/usr/lib32:'{}'/usr/lib64:' \;):$(find /nix/store -type d -name '*qtbase*' -exec echo -n {}'/lib:' \;)
 # kgx --tab
 # nix-shell -p ncurses5 flex bison elfutils openssl # kernel

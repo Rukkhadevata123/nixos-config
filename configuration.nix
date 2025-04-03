@@ -5,33 +5,15 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }: let
   # 定义一个开关变量
   enableVFIO = false; # 设置为 true 使用直通配置，false 使用原始配置
-  #   nix-software-center = import (pkgs.fetchFromGitHub {
-  #     owner = "snowfallorg";
-  #     repo = "nix-software-center";
-  #     rev = "0.1.2";
-  #     sha256 = "xiqF1mP8wFubdsAQ1BmfjzCgOD3YZf7EGWl9i69FTls=";
-  #   }) {};
-  #   nixos-conf-editor = import (pkgs.fetchFromGitHub {
-  #     owner = "snowfallorg";
-  #     repo = "nixos-conf-editor";
-  #     rev = "0.1.2";
-  #     sha256 = "sha256-/ktLbmF1pU3vFHeGooDYswJipNE2YINm0WpF9Wd1gw8=";
-  #   }) {};
-  nixvim = import (builtins.fetchGit {
-    url = "https://github.com/nix-community/nixvim";
-    # When using a different channel you can use `ref = "nixos-<version>"` to set it here
-  });
 in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./home.nix
-    ./nix-alien.nix
-    nixvim.nixosModules.nixvim
   ];
 
   # Bootloader.
@@ -129,6 +111,19 @@ in {
   services.locate.enable = true;
   services.locate.package = pkgs.mlocate;
   services.flatpak.enable = true;
+  xdg = {
+    portal = {
+      enable = true;
+      config.common.default = "*";
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-gnome
+        xdg-desktop-portal-hyprland
+        xdg-desktop-portal-xapp
+      ];
+    };
+  };
   # services.onlyoffice.enable = true;
 
   # About Graphics
@@ -225,12 +220,6 @@ in {
   programs.clash-verge.enable = true;
   programs.clash-verge.autoStart = false;
   programs.clash-verge.package = pkgs.clash-verge-rev;
-  programs.nixvim = {
-    enable = true;
-
-    colorschemes.catppuccin.enable = true;
-    plugins.lualine.enable = true;
-  };
 
   programs.firefox.wrapperConfig = {
     pipewireSupport = true;
@@ -360,6 +349,9 @@ in {
     hugo
     iftop
     imagemagick
+    inputs.nix-alien.packages.${system}.nix-alien
+    inputs.nixos-conf-editor.packages.${system}.nixos-conf-editor
+    inputs.nix-software-center.packages.${system}.nix-software-center
     iperf3
     ipcalc
     jq

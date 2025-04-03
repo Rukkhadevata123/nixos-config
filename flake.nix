@@ -15,6 +15,10 @@
     nix-alien.url = "github:thiagokokada/nix-alien";
     nix-software-center.url = "github:snowfallorg/nix-software-center";
     nixos-conf-editor.url = "github:snowfallorg/nixos-conf-editor";
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -24,12 +28,15 @@
     nix-alien,
     nix-software-center,
     nixos-conf-editor,
+    nur,
     ...
   }: {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [
+        modules = let
+          system = "x86_64-linux";
+        in [
           ./configuration.nix
           home-manager.nixosModules.home-manager
           # nixvim 模块
@@ -41,6 +48,19 @@
               plugins.lualine.enable = true;
             };
           }
+          nur.modules.nixos.default
+          # NUR modules to import
+          nur.legacyPackages."${system}".repos.iopq.modules.xraya
+          # This adds the NUR nixpkgs overlay.
+          # Example:
+          ({pkgs, ...}: {
+            environment.systemPackages = [
+              pkgs.nur.repos.mic92.hello-nur
+              # pkgs.nur.repos.xddxdd.qqmusic
+              pkgs.nur.repos.novel2430.wpsoffice-365
+              pkgs.nur.repos.rewine.ttf-wps-fonts
+            ];
+          })
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -49,7 +69,7 @@
           }
         ];
         # 传递所有输入到 configuration.nix
-        specialArgs = { inherit inputs;};
+        specialArgs = {inherit inputs;};
       };
     };
   };

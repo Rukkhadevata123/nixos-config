@@ -111,6 +111,23 @@ in {
   services.locate.enable = true;
   services.locate.package = pkgs.mlocate;
   services.flatpak.enable = true;
+  services.kmscon = {
+    # Use kmscon as the virtual console instead of gettys.
+    # kmscon is a kms/dri-based userspace virtual terminal implementation.
+    # It supports a richer feature set than the standard linux console VT,
+    # including full unicode support, and when the video card supports drm should be much faster.
+    enable = true;
+    fonts = [
+      {
+        name = "Source Code Pro";
+        package = pkgs.source-code-pro;
+      }
+    ];
+    extraOptions = "--term xterm-256color";
+    extraConfig = "font-size=12";
+    # Whether to use 3D hardware acceleration to render the console.
+    hwRender = true;
+  };
   xdg = {
     portal = {
       enable = true;
@@ -412,7 +429,7 @@ in {
     putty
     python3
     qbittorrent-enhanced
-    qqmusic
+    # qqmusic
     qtcreator
     ripgrep
     rustup
@@ -717,9 +734,15 @@ in {
       noto-fonts-emoji
       proggyfonts
     ];
-
     # Custom fontconfig configuration.
     fontconfig = {
+      #       defaultFonts = {
+      #         serif = ["Source Han Serif SC" "Source Han Serif TC" "Noto Color Emoji"];
+      #         sansSerif = ["Source Han Sans SC" "Source Han Sans TC" "Noto Color Emoji"];
+      #         monospace = ["JetBrainsMono Nerd Font" "Noto Color Emoji"];
+      #         emoji = ["Noto Color Emoji"];
+      #       };
+
       localConf = ''
         <?xml version="1.0"?>
         <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
@@ -857,11 +880,22 @@ in {
   virtualisation.spiceUSBRedirection.enable = true;
   programs.virt-manager.enable = true;
   # virtualisation.vmware.host.enable = true;
-  virtualisation.docker.enable = true;
   virtualisation.waydroid.enable = true;
   virtualisation.libvirtd.qemu = {
     swtpm.enable = true;
     ovmf.packages = [pkgs.OVMFFull.fd];
+  };
+  virtualisation.docker = {
+    enable = true;
+    daemon.settings = {
+      # enables pulling using containerd, which supports restarting from a partial pull
+      # https://docs.docker.com/storage/containerd/
+      "features" = {"containerd-snapshotter" = true;};
+    };
+
+    # start dockerd on boot.
+    # This is required for containers which are created with the `--restart=always` flag to work.
+    enableOnBoot = true;
   };
 
   # Enable the OpenSSH daemon.

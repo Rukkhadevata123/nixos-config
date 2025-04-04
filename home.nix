@@ -153,6 +153,20 @@
     oh-my-zsh.theme = "robbyrussell";
   };
 
+  # Foot 终端配置
+  programs.foot = {
+    enable = true;
+    settings = {
+      main = {
+        font = "JetBrainsMono Nerd Font:size=12";
+        dpi-aware = "yes";
+      };
+      colors = {
+        background = "1d2021";
+        foreground = "d4be98";
+      };
+    };
+  };
   # 启用 starship，这是一个漂亮的 shell 提示符
   #   programs.starship = {
   #     enable = true;

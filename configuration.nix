@@ -105,6 +105,16 @@ in {
   services.xserver.desktopManager.gnome.enable = false;
   services.xserver.desktopManager.runXdgAutostartIfNone = true;
   services.gnome.games.enable = true;
+  services.gnome.gnome-keyring.enable = true;
+  security.polkit.enable = true;
+  security.pam.loginLimits = [
+    {
+      domain = "@users";
+      item = "rtprio";
+      type = "-";
+      value = 1;
+    }
+  ];
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
@@ -116,7 +126,7 @@ in {
     # kmscon is a kms/dri-based userspace virtual terminal implementation.
     # It supports a richer feature set than the standard linux console VT,
     # including full unicode support, and when the video card supports drm should be much faster.
-    enable = true;
+    enable = false;
     fonts = [
       {
         name = "Source Code Pro";
@@ -218,6 +228,7 @@ in {
       "mlocate"
       "input"
       "adbusers"
+      "video"
     ];
     packages = with pkgs; [
       vscode.fhs
@@ -237,6 +248,12 @@ in {
   programs.clash-verge.enable = true;
   programs.clash-verge.autoStart = false;
   programs.clash-verge.package = pkgs.clash-verge-rev;
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+  };
+  programs.waybar.enable = true;
+  programs.light.enable = true;
 
   programs.firefox.wrapperConfig = {
     pipewireSupport = true;
@@ -296,6 +313,7 @@ in {
     arphic-ukai
     arphic-uming
     autoconf
+    autotiling
     bashInteractive
     bibata-cursors
     binutils
@@ -350,6 +368,7 @@ in {
     gparted
     gperf
     gradle
+    grim
     gnome-console
     gnome-disk-utility
     gnome-software
@@ -392,6 +411,7 @@ in {
     lsof
     ltrace
     m4
+    mako
     marktext
     maven
     meson
@@ -434,6 +454,7 @@ in {
     ripgrep
     rustup
     scrcpy
+    slurp
     socat
     spice-vdagent
     steam-run
@@ -474,6 +495,7 @@ in {
     winetricks
     wl-clipboard
     # wpsoffice-cn
+    wofi
     wqy_microhei
     wqy_zenhei
     xclip

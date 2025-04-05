@@ -106,6 +106,13 @@ in {
   services.xserver.desktopManager.runXdgAutostartIfNone = true;
   services.gnome.games.enable = true;
   services.gnome.gnome-keyring.enable = true;
+  services.redshift.enable = true;
+  location.latitude = 30.26;
+  location.longitude = 120.19;
+  # services.redshift.temperature.night = 4500;
+  # services.redshift.temperature.day = 4500;
+  # services.redshift.brightness.night = 0.4;
+  # services.redshift.brightness.day = 0.6;
   security.polkit.enable = true;
   security.pam.loginLimits = [
     {
@@ -345,9 +352,11 @@ in {
     file
     filezilla
     findutils
+    flameshot
     flex
     foliate
     fzf
+    gammastep
     gawk
     gamemode
     gcc
@@ -423,6 +432,7 @@ in {
     nautilus
     ncurses5
     neofetch
+    networkmanagerapplet
     nil
     ninja
     # nixos-conf-editor
@@ -452,6 +462,7 @@ in {
     # qqmusic
     qtcreator
     ripgrep
+    rofi
     rustup
     scrcpy
     slurp
@@ -501,6 +512,7 @@ in {
     xclip
     xfce.thunar
     xorg.xcalc
+    xorg.xeyes
     xorg.xhost
     xz
     yaru-theme

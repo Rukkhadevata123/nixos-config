@@ -152,6 +152,144 @@
     oh-my-zsh.plugins = ["git" "python" "man" "thefuck"];
     oh-my-zsh.theme = "robbyrussell";
   };
+  services.cliphist.enable = true;
+  wayland.windowManager.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+    checkConfig = false;
+    extraOptions = [
+      "--verbose"
+      "--debug"
+      "--unsupported-gpu"
+    ];
+
+    config = {
+      modifier = "Mod4"; # 使用 Super 键
+      terminal = "foot";
+      menu = "rofi -show run"; # 启动器
+      bars = [
+        {
+          command = "\${pkgs.waybar}/bin/waybar";
+        }
+      ];
+      output = {
+        "*" = {
+          bg = "/home/yoimiya/nixos-config/wallpaper.jpg fill"; # 使用系统内置壁纸
+          scale = "1";
+        };
+      };
+      keybindings = let
+        mod = config.wayland.windowManager.sway.config.modifier;
+      in {
+        # 工作区切换
+        "${mod}+0" = "workspace number 10";
+        "${mod}+1" = "workspace number 1";
+        "${mod}+2" = "workspace number 2";
+        "${mod}+3" = "workspace number 3";
+        "${mod}+4" = "workspace number 4";
+        "${mod}+5" = "workspace number 5";
+        "${mod}+6" = "workspace number 6";
+        "${mod}+7" = "workspace number 7";
+        "${mod}+8" = "workspace number 8";
+        "${mod}+9" = "workspace number 9";
+
+        # 窗口焦点移动
+        "${mod}+Down" = "focus down";
+        "${mod}+Left" = "focus left";
+        "${mod}+Right" = "focus right";
+        "${mod}+Up" = "focus up";
+        "${mod}+h" = "focus left";
+        "${mod}+j" = "focus down";
+        "${mod}+k" = "focus up";
+        "${mod}+l" = "focus right";
+        "${mod}+a" = "focus parent";
+        "${mod}+space" = "focus mode_toggle";
+
+        # 窗口移动
+        "${mod}+Shift+0" = "move container to workspace number 10";
+        "${mod}+Shift+1" = "move container to workspace number 1";
+        "${mod}+Shift+2" = "move container to workspace number 2";
+        "${mod}+Shift+3" = "move container to workspace number 3";
+        "${mod}+Shift+4" = "move container to workspace number 4";
+        "${mod}+Shift+5" = "move container to workspace number 5";
+        "${mod}+Shift+6" = "move container to workspace number 6";
+        "${mod}+Shift+7" = "move container to workspace number 7";
+        "${mod}+Shift+8" = "move container to workspace number 8";
+        "${mod}+Shift+9" = "move container to workspace number 9";
+        "${mod}+Shift+Down" = "move down";
+        "${mod}+Shift+Left" = "move left";
+        "${mod}+Shift+Right" = "move right";
+        "${mod}+Shift+Up" = "move up";
+        "${mod}+Shift+h" = "move left";
+        "${mod}+Shift+j" = "move down";
+        "${mod}+Shift+k" = "move up";
+        "${mod}+Shift+l" = "move right";
+
+        # 布局与窗口管理
+        "${mod}+b" = "splith";
+        "${mod}+e" = "layout toggle split";
+        "${mod}+f" = "fullscreen toggle";
+        "${mod}+s" = "layout stacking";
+        "${mod}+v" = "splitv"; # 保留原始布局功能
+        "${mod}+w" = "layout tabbed";
+        "${mod}+Shift+space" = "floating toggle";
+        "${mod}+Shift+minus" = "move scratchpad";
+        "${mod}+minus" = "scratchpad show";
+
+        # 基本操作
+        "${mod}+Return" = "exec foot";
+        "${mod}+d" = "exec rofi -show run";
+        "${mod}+r" = "mode resize";
+        "${mod}+Shift+c" = "reload";
+        "${mod}+Shift+e" = "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'";
+        "${mod}+Shift+q" = "kill";
+
+        # 自定义功能
+        "${mod}+q" = "exec flameshot gui"; # 截图工具
+
+        # 亮度控制
+        "XF86MonBrightnessUp" = "exec light -A 10";
+        "XF86MonBrightnessDown" = "exec light -U 10";
+
+        # 音量控制
+        "XF86AudioRaiseVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ +1%";
+        "XF86AudioLowerVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ -1%";
+        "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
+
+        # 剪贴板管理（调整后的快捷键）
+        "${mod}+c" = "exec rofi -modi 'clipboard:cliphist list' -show clipboard | cliphist decode | wl-copy"; # 改为 Mod4+c
+        "${mod}+Shift+v" = "exec cliphist list | rofi -dmenu | cliphist decode | wl-copy";
+        "${mod}+Shift+Delete" = "exec cliphist wipe";
+      };
+      startup = [
+        # 启动 fcitx5 并等待它完成初始化
+        {
+          command = "fcitx5 -d";
+          always = true;
+        }
+        # 启动 redshift 并使用指定色温
+        {
+          command = "gammastep -O 4500 &";
+          always = true;
+        }
+        # 网络连接
+        {
+          command = "nm-applet --indicator";
+          always = true;
+        }
+        # 启动代理
+        {
+          command = "clash-verge &";
+          always = false;
+        }
+        # 剪贴板管理
+        {
+          command = "exec wl-paste --watch cliphist store";
+          always = true;
+        }
+      ];
+    };
+  };
 
   # Foot 终端配置
   programs.foot = {

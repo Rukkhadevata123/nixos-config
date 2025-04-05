@@ -153,6 +153,144 @@
     oh-my-zsh.theme = "robbyrussell";
   };
   services.cliphist.enable = true;
+  services.wob = {
+    enable = true;
+    settings = {
+      "" = {
+        border_size = 10;
+        height = 50;
+      };
+      "style.muted".background_color = "032cfc";
+    };
+  };
+  programs.wlogout = {
+    enable = true;
+    # 自定义布局和样式
+    layout = [
+      {
+        label = "lock";
+        action = "swaylock -f -c 000000";
+        text = "锁定";
+        keybind = "l";
+      }
+      {
+        label = "hibernate";
+        action = "systemctl hibernate";
+        text = "休眠";
+        keybind = "h";
+      }
+      {
+        label = "logout";
+        action = "swaymsg exit";
+        text = "注销";
+        keybind = "e";
+      }
+      {
+        label = "shutdown";
+        action = "systemctl poweroff";
+        text = "关机";
+        keybind = "s";
+      }
+      {
+        label = "suspend";
+        action = "systemctl suspend";
+        text = "睡眠";
+        keybind = "u";
+      }
+      {
+        label = "reboot";
+        action = "systemctl reboot";
+        text = "重启";
+        keybind = "r";
+      }
+    ];
+    style = ''
+      * {
+        background-image: none;
+      }
+      window {
+        background-color: rgba(12, 12, 12, 0.9);
+      }
+      button {
+        color: #FFFFFF;
+        background-color: #1E1E1E;
+        border-style: solid;
+        border-width: 2px;
+        border-color: #444444;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 25%;
+        border-radius: 8px;
+        margin: 5px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+      }
+
+      button:focus, button:active, button:hover {
+        background-color: #3700B3;
+        border-color: #BB86FC;
+        color: #FFFFFF;
+        outline-style: none;
+      }
+
+      #lock {
+        background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/lock.png"));
+      }
+
+      #logout {
+        background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/logout.png"));
+      }
+
+      #suspend {
+        background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/suspend.png"));
+      }
+
+      #hibernate {
+        background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/hibernate.png"));
+      }
+
+      #shutdown {
+        background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/shutdown.png"));
+      }
+
+      #reboot {
+        background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/reboot.png"));
+      }
+    '';
+  };
+  programs.swaylock = {
+    enable = true;
+    settings = {
+      color = "808080";
+      font-size = 24;
+      indicator-idle-visible = false;
+      indicator-radius = 100;
+      line-color = "ffffff";
+      show-failed-attempts = true;
+    };
+  };
+  services.swayidle = {
+    events = [
+      {
+        event = "before-sleep";
+        command = "${pkgs.swaylock}/bin/swaylock -f -c 000000";
+      }
+      {
+        event = "lock";
+        command = "${pkgs.swaylock}/bin/swaylock -f -c 000000";
+      }
+    ];
+    timeouts = [
+      {
+        timeout = 600;
+        command = "${pkgs.swaylock}/bin/swaylock -f -c 000000";
+      }
+      {
+        timeout = 1200;
+        command = "${pkgs.sway}/bin/swaymsg \"output * power off\"";
+        resumeCommand = "${pkgs.sway}/bin/swaymsg \"output * power on\"";
+      }
+    ];
+  };
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -175,7 +313,7 @@
       output = {
         "*" = {
           bg = "/home/yoimiya/nixos-config/wallpaper.jpg fill"; # 使用系统内置壁纸
-          scale = "1";
+          scale = "1.5";
         };
       };
       keybindings = let
@@ -238,27 +376,31 @@
 
         # 基本操作
         "${mod}+Return" = "exec foot";
-        "${mod}+d" = "exec rofi -show run";
+        "${mod}+d" = "exec wofi --show drun";
         "${mod}+r" = "mode resize";
         "${mod}+Shift+c" = "reload";
         "${mod}+Shift+e" = "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'";
         "${mod}+Shift+q" = "kill";
 
+        # 登出
+        "${mod}+Shift+x" = "exec wlogout"; # 使用 Super+Shift+x 调出退出菜单
+        "${mod}+Escape" = "exec wlogout"; # 可选的另一个快捷键
+
         # 自定义功能
         "${mod}+q" = "exec flameshot gui"; # 截图工具
 
         # 亮度控制
-        "XF86MonBrightnessUp" = "exec light -A 10";
-        "XF86MonBrightnessDown" = "exec light -U 10";
+        "XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
+        "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
 
         # 音量控制
         "XF86AudioRaiseVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ +1%";
         "XF86AudioLowerVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ -1%";
         "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
+        "XF86AudioMicMute" = "exec pactl set-source-mute @DEFAULT_SOURCE@ toggle";
 
         # 剪贴板管理（调整后的快捷键）
-        "${mod}+c" = "exec rofi -modi 'clipboard:cliphist list' -show clipboard | cliphist decode | wl-copy"; # 改为 Mod4+c
-        "${mod}+Shift+v" = "exec cliphist list | rofi -dmenu | cliphist decode | wl-copy";
+        "${mod}+Shift+v" = "exec cliphist list | wofi -S dmenu | cliphist decode | wl-copy";
         "${mod}+Shift+Delete" = "exec cliphist wipe";
       };
       startup = [
@@ -285,6 +427,11 @@
         # 剪贴板管理
         {
           command = "exec wl-paste --watch cliphist store";
+          always = true;
+        }
+        # 启动蓝牙
+        {
+          command = "blueman-applet";
           always = true;
         }
       ];

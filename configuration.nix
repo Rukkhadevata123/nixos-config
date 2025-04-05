@@ -128,6 +128,7 @@ in {
   services.locate.enable = true;
   services.locate.package = pkgs.mlocate;
   services.flatpak.enable = true;
+  services.blueman.enable = true;
   services.kmscon = {
     # Use kmscon as the virtual console instead of gettys.
     # kmscon is a kms/dri-based userspace virtual terminal implementation.
@@ -260,7 +261,6 @@ in {
     wrapperFeatures.gtk = true;
   };
   programs.waybar.enable = true;
-  programs.light.enable = true;
 
   programs.firefox.wrapperConfig = {
     pipewireSupport = true;
@@ -326,6 +326,7 @@ in {
     binutils
     bison
     bleachbit
+    brightnessctl
     btop
     busybox
     cachix
@@ -411,6 +412,7 @@ in {
     libva-utils
     ldns
     libguestfs
+    libnotify
     libreoffice-qt6-fresh
     libxcrypt
     lldb
@@ -505,8 +507,10 @@ in {
     wineWowPackages.stagingFull
     winetricks
     wl-clipboard
+    wf-recorder
     # wpsoffice-cn
     wofi
+    workstyle
     wqy_microhei
     wqy_zenhei
     xclip

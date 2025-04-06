@@ -153,6 +153,7 @@
     oh-my-zsh.theme = "robbyrussell";
   };
   services.cliphist.enable = true;
+  services.flameshot.enable = true;
   services.wob = {
     enable = true;
     settings = {
@@ -313,7 +314,7 @@
       output = {
         "*" = {
           bg = "/home/yoimiya/nixos-config/wallpaper.jpg fill"; # 使用系统内置壁纸
-          scale = "1.5";
+          scale = "1";
         };
       };
       keybindings = let
@@ -380,14 +381,14 @@
         "${mod}+r" = "mode resize";
         "${mod}+Shift+c" = "reload";
         "${mod}+Shift+e" = "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'";
-        "${mod}+Shift+q" = "kill";
+        "${mod}+q" = "kill";
 
         # 登出
         "${mod}+Shift+x" = "exec wlogout"; # 使用 Super+Shift+x 调出退出菜单
         "${mod}+Escape" = "exec wlogout"; # 可选的另一个快捷键
 
         # 自定义功能
-        "${mod}+q" = "exec flameshot gui"; # 截图工具
+        "${mod}+Shift+q" = "exec flameshot gui"; # 截图工具
 
         # 亮度控制
         "XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
@@ -432,6 +433,11 @@
         # 启动蓝牙
         {
           command = "blueman-applet";
+          always = true;
+        }
+        # Xwayland缩放
+        {
+          command = "echo 'Xft.dpi: 144' | xrdb -merge";
           always = true;
         }
       ];

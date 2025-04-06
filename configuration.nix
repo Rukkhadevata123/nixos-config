@@ -114,6 +114,19 @@ in {
   # services.redshift.brightness.night = 0.4;
   # services.redshift.brightness.day = 0.6;
   security.polkit.enable = true;
+  systemd.user.services.polkit-gnome-authentication-agent-1 = {
+    description = "polkit-gnome-authentication-agent-1";
+    wantedBy = ["graphical-session.target"];
+    wants = ["graphical-session.target"];
+    after = ["graphical-session.target"];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      Restart = "on-failure";
+      RestartSec = 1;
+      TimeoutStopSec = 10;
+    };
+  };
   security.pam.loginLimits = [
     {
       domain = "@users";
@@ -153,6 +166,7 @@ in {
       extraPortals = with pkgs; [
         xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
+        kdePackages.xdg-desktop-portal-kde
         xdg-desktop-portal-gnome
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-xapp
@@ -294,10 +308,12 @@ in {
       "https://cuda-maintainers.cachix.org"
       "https://nix-community.cachix.org"
       "https://cache.nixos.org/"
+      "https://hyprland.cachix.org"
     ];
     trusted-public-keys = [
       "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     ];
   };
 
@@ -353,7 +369,6 @@ in {
     file
     filezilla
     findutils
-    flameshot
     flex
     foliate
     fzf
@@ -454,6 +469,7 @@ in {
     p7zip
     pkg-config
     plocate
+    polkit_gnome
     powershell
     prismlauncher
     procps

@@ -142,6 +142,7 @@ in {
   services.locate.package = pkgs.mlocate;
   services.flatpak.enable = true;
   services.blueman.enable = true;
+  services.envfs.enable = true;
   services.kmscon = {
     # Use kmscon as the virtual console instead of gettys.
     # kmscon is a kms/dri-based userspace virtual terminal implementation.

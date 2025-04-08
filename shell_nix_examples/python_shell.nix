@@ -1,7 +1,7 @@
 let
   # We pin to a specific nixpkgs commit for reproducibility.
   # Last updated: 2024-04-29. Check for new commits at https://status.nixos.org.
-  pkgs = import (fetchTarball "https://ghfast.top/https://github.com/NixOS/nixpkgs/archive/bd3bac8bfb542dbde7ffffb6987a1a1f9d41699f.tar.gz") {};
+  pkgs = import (fetchTarball "https://ghfast.top/https://github.com/NixOS/nixpkgs/archive/74a40410369a1c35ee09b8a1abee6f4acbedc059.tar.gz") {};
 in pkgs.mkShell {
   packages = [
     (pkgs.python3.withPackages (python-pkgs: with python-pkgs; [
@@ -46,10 +46,10 @@ in pkgs.mkShell {
     export https_proxy="http://127.0.0.1:7897"
     export all_proxy="socks5://127.0.0.1:7897"
     export no_proxy="127.0.0.1,localhost,internal.domain"
-    export LD_LIBRARY_PATH=$(nix eval --raw nixpkgs#gcc.cc.lib)/lib:$LD_LIBRARY_PATH
+    # export LD_LIBRARY_PATH=$(nix eval --raw nixpkgs#gcc.cc.lib)/lib:$LD_LIBRARY_PATH
 
     # Setup nix-ld environment
-    export NIX_LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
+    # export NIX_LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
       pkgs.zlib
       pkgs.zstd
       pkgs.stdenv.cc.cc
@@ -66,13 +66,13 @@ in pkgs.mkShell {
       pkgs.systemd
       pkgs.xorg.libX11
     ]}
-    export NIX_LD=${pkgs.glibc}/lib/ld-linux-x86-64.so.2
+    # export NIX_LD=${pkgs.glibc}/lib/ld-linux-x86-64.so.2
 
 
     # Python wrapper for nix-ld
     python() {
-      export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-      ${pkgs.python3}/bin/python "$@"
+      # export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+      /usr/bin/env python "$@"
     }
 
     # Comment about venv setup

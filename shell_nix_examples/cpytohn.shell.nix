@@ -1,5 +1,4 @@
-{ pkgs ? import <nixpkgs> {} }:
-
+{pkgs ? import <nixpkgs> {}}:
 pkgs.mkShell {
   buildInputs = with pkgs; [
     # 编译 Python 所需的基本工具
@@ -11,7 +10,7 @@ pkgs.mkShell {
     bzip2.dev
     ncurses.dev
     gdbm.dev
-    openssl.dev  # 默认版本，通常是 3.x
+    openssl.dev # 默认版本，通常是 3.x
     xz.dev
     sqlite.dev
     tk.dev

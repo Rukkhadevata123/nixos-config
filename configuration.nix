@@ -275,7 +275,7 @@ in {
     enable = true;
     wrapperFeatures.gtk = true;
   };
-  programs.waybar.enable = true;
+  programs.waybar.enable = false;
 
   programs.firefox.wrapperConfig = {
     pipewireSupport = true;
@@ -455,6 +455,7 @@ in {
     ninja
     # nixos-conf-editor
     nix-output-monitor
+    nix-index-unwrapped
     # nix-software-center
     nmap
     nodejs
@@ -467,6 +468,7 @@ in {
     pandoc
     papirus-icon-theme
     pciutils
+    pdftk
     p7zip
     pkg-config
     plocate

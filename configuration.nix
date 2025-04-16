@@ -254,6 +254,7 @@ in {
       "video"
     ];
     packages = with pkgs; [
+      code-cursor
       vscode.fhs
       vscodium-fhs
       qq

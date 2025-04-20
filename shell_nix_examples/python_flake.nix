@@ -34,6 +34,11 @@
               pip
               scipy
               pillow
+              isort
+              black
+              flake8
+              pylint
+              mypy
             ]))
           pkgs.zlib
           pkgs.zstd

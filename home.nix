@@ -59,7 +59,7 @@
       size = 10000;
       ignoreAllDups = true;
       path = "$HOME/.zsh_history";
-      ignorePatterns = ["rm *" "pkill *" "cp *"];
+      # ignorePatterns = ["rm *" "pkill *" "cp *"];
     };
 
     oh-my-zsh = {

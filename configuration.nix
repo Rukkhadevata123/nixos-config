@@ -439,7 +439,7 @@ in {
       kdePackages.filelight
       kdePackages.full
       kdePackages.qt6ct
-      kdePackages.qt6gtk2
+      # kdePackages.qt6gtk2
       kdePackages.qtstyleplugin-kvantum
       kdePackages.xwaylandvideobridge
       kitty
@@ -833,7 +833,45 @@ in {
         <?xml version="1.0"?>
         <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
         <fontconfig>
-          <!-- 字体配置 -->
+          <!-- Replace NewCenturySchlbk font with TeX Gyre Schola. -->
+          <match target="pattern">
+            <test qual="any" name="family"><string>NewCenturySchlbk</string></test>
+            <edit name="family" mode="assign" binding="same"><string>TeX Gyre Schola</string></edit>
+          </match>
+
+          <!-- Set font aliases for different language CJK fonts. -->
+          <alias>
+            <family>sans-serif</family>
+            <prefer>
+              <family>Noto Sans CJK SC</family> <!-- 简体中文 -->
+              <family>Noto Sans CJK TC</family> <!-- 繁体中文 -->
+              <family>Noto Sans CJK HK</family> <!-- 香港繁体中文 -->
+              <family>Noto Sans CJK KR</family> <!-- 韩文 -->
+              <family>Noto Sans CJK JP</family> <!-- 日文 -->
+            </prefer>
+          </alias>
+
+          <alias>
+            <family>serif</family>
+            <prefer>
+              <family>Noto Serif CJK SC</family> <!-- 简体中文 -->
+              <family>Noto Serif CJK TC</family> <!-- 繁体中文 -->
+              <family>Noto Serif CJK HK</family> <!-- 香港繁体中文 -->
+              <family>Noto Serif CJK KR</family> <!-- 韩文 -->
+              <family>Noto Serif CJK JP</family> <!-- 日文 -->
+            </prefer>
+          </alias>
+
+          <alias>
+            <family>monospace</family>
+            <prefer>
+              <family>Noto Sans Mono CJK SC</family> <!-- 简体中文 -->
+              <family>Noto Sans Mono CJK TC</family> <!-- 繁体中文 -->
+              <family>Noto Sans Mono CJK HK</family> <!-- 香港繁体中文 -->
+              <family>Noto Sans Mono CJK KR</family> <!-- 韩文 -->
+              <family>Noto Sans Mono CJK JP</family> <!-- 日文 -->
+            </prefer>
+          </alias>
         </fontconfig>
       '';
     };

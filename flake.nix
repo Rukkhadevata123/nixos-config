@@ -58,6 +58,15 @@
               enable = true;
               colorschemes.catppuccin.enable = true;
               plugins.lualine.enable = true;
+              plugins.copilot-vim = let
+                pkgs = import nixpkgs {
+                  inherit system;
+                  config.allowUnfree = true;
+                };
+              in {
+                enable = true;
+                package = pkgs.vimPlugins.copilot-vim;
+              };
             };
           }
 

@@ -40,7 +40,6 @@
           xorg.libXcursor
           xorg.libXi
           xorg.libXext
-          libGL # OpenGL 库
           vulkan-loader # Vulkan 支持
           vulkan-headers
           vulkan-tools
@@ -51,7 +50,8 @@
           tinyobjloader # TinyObjLoader 库
 
           # 常见图形库和依赖
-          libGLU
+          libGL.dev
+          libGLU.dev
           freeglut
           mesa
 
@@ -98,7 +98,7 @@
 
           # STB 头文件路径设置
           export STB_INCLUDE_PATH="${pkgs.stb}/include/stb"
-          export C_INCLUDE_PATH="${pkgs.stb}/include:${pkgs.mesa}/include:$C_INCLUDE_PATH"
+          export C_INCLUDE_PATH="${pkgs.glfw3}/include:${pkgs.vulkan-headers}/include:${pkgs.libGL.dev}/include:${pkgs.libGLU.dev}/include:${pkgs.stb}/include:${pkgs.mesa}/include:$C_INCLUDE_PATH"
           export CPLUS_INCLUDE_PATH="$C_INCLUDE_PATH"
 
           # Vulkan 验证层设置

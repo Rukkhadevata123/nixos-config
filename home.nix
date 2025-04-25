@@ -33,7 +33,7 @@
       ll = "ls -l";
       edit = "sudo -e";
       cpconfig = "sudo cp ~/nixos-config/home.nix /etc/nixos/home.nix && sudo cp ~/nixos-config/configuration.nix /etc/nixos/configuration.nix && sudo cp ~/nixos-config/flake.nix /etc/nixos/flake.nix";
-      update = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --upgrade";
+      update = "flatpak update && cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --upgrade";
       garbage = "sudo nix-collect-garbage -d";
       rm = "rm -i";
       gs = "git status";

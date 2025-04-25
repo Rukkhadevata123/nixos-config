@@ -389,6 +389,12 @@ flowchart TD
 2. **样式美化**  
    在图表开头添加主题配置：
 
+   ```plaintext
+   %%{init: {'theme': 'forest'}}%%
+   graph LR
+       A[Green Node] --> B[Blue Node]
+   ```
+
    ```mermaid
    %%{init: {'theme': 'forest'}}%%
    graph LR
@@ -399,6 +405,17 @@ flowchart TD
 
 3. **组合使用**  
    用 `subgraph` 嵌套多个图表模块，例如同时展示物理机和容器部署：
+
+   ```plaintext
+   graph TB
+       subgraph 物理机
+           A[Server] --> B[NFS]
+       end
+       subgraph Kubernetes
+           C[Pod] --> D[PVC]
+       end
+       B --> D
+   ```
 
    ```mermaid
    graph TB

@@ -57,6 +57,7 @@
 
           # 对于 Wayland（如果需要）
           wayland
+ 	        wayland-scanner
           wayland-protocols
           libxkbcommon
 

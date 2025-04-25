@@ -172,6 +172,9 @@ in {
     };
     spice-vdagentd.enable = true;
     qemuGuest.enable = true;
+    akkoma = {
+      enable = false;
+    };
   };
 
   #-------------------------------
@@ -360,6 +363,7 @@ in {
       bashInteractive
       bibata-cursors
       binutils
+      binwalk
       bison
       bleachbit
       brightnessctl
@@ -384,6 +388,7 @@ in {
       elfutils
       emacs
       ethtool
+      exiftool
       eza
       fastfetch
       file
@@ -398,7 +403,7 @@ in {
       gcc
       gdb
       ghostty
-      gimp
+      gimp3
       git
       gitRepo
       glmark2
@@ -461,6 +466,7 @@ in {
       marktext
       maven
       meson
+      mediainfo
       microsoft-edge
       mlocate
       motrix
@@ -475,6 +481,7 @@ in {
       # nixos-conf-editor
       nix-output-monitor
       nix-index-unwrapped
+      ngrep
       # nix-software-center
       nmap
       nodejs

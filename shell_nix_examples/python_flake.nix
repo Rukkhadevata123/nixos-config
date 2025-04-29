@@ -59,6 +59,7 @@
 
         shellHook = ''
           echo "python `python --version`"
+          # export LD_LIBRARY_PATH="/run/current-system/sw/share/nix-ld/lib:$(locate -l1 steam-fhsenv-rootfs/usr/lib32 | head -1):$(locate -l1 steam-fhsenv-rootfs/usr/lib64 | head -1)"
         '';
       };
   };

@@ -175,6 +175,19 @@ in {
     akkoma = {
       enable = false;
     };
+    mihomo = {
+      configFile = "/home/yoimiya/nixos-config/config.yaml";
+      enable = true;
+      tunMode = true;
+      webui = pkgs.metacubexd;
+    };
+    v2ray = {
+      enable = true;
+      configFile = "/home/yoimiya/nixos-config/config.json";
+    };
+    v2raya = {
+      enable = true;
+    };
   };
 
   #-------------------------------
@@ -223,7 +236,10 @@ in {
   # 图形和硬件配置
   #-------------------------------
   hardware = {
-    nvidia.open = true;
+    nvidia = {
+      open = false;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
+    };
     graphics = {
       enable = true;
       enable32Bit = true;
@@ -293,7 +309,7 @@ in {
     java.enable = true;
     dconf.enable = true;
     clash-verge = {
-      enable = true;
+      enable = false;
       autoStart = false;
       package = pkgs.clash-verge-rev;
     };
@@ -533,8 +549,9 @@ in {
       unzip
       usbutils
       util-linux
-      v2ray
-      v2raya
+      # v2ray
+      # v2raya
+      v2rayn
       valgrind
       vdpauinfo
       vim
@@ -650,6 +667,12 @@ in {
         cp ${pkgs.corefonts}/share/fonts/truetype/* ~/.local/share/fonts/
         chmod 544 ~/.local/share/fonts
         chmod 444 ~/.local/share/fonts/*
+      '';
+    };
+    copy-mihomo-config = {
+      text = ''
+        # Add your configuration commands here
+        # Example command: cp /path/to/source /path/to/destination
       '';
     };
   };
@@ -810,7 +833,7 @@ in {
       nerd-fonts.monofur
       nerd-fonts.monoid
       nerd-fonts.mononoki
-      nerd-fonts.mplus
+      # nerd-fonts.mplus
       nerd-fonts.noto
       nerd-fonts.open-dyslexic
       nerd-fonts.overpass
@@ -990,15 +1013,15 @@ in {
         flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       '';
     };
-    v2ray = {
-      description = "V2Ray Service";
-      after = ["network.target"];
-      serviceConfig = {
-        ExecStart = "${pkgs.v2ray}/bin/v2ray run";
-        Restart = "always";
-      };
-      wantedBy = ["multi-user.target"];
-    };
+    # v2ray = {
+    #   description = "V2Ray Service";
+    #   after = ["network.target"];
+    #   serviceConfig = {
+    #     ExecStart = "${pkgs.v2ray}/bin/v2ray run";
+    #     Restart = "always";
+    #   };
+    #   wantedBy = ["multi-user.target"];
+    # };
     polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
       wantedBy = ["graphical-session.target"];

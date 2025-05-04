@@ -182,7 +182,7 @@ in {
       webui = pkgs.metacubexd;
     };
     v2ray = {
-      enable = true;
+      enable = false;
       configFile = "/home/yoimiya/nixos-config/config.json";
     };
     v2raya = {
@@ -394,6 +394,7 @@ in {
       corefonts
       coreutils-full
       cowsay
+      cppcheck
       cudatoolkit
       devbox
       dnsutils
@@ -549,7 +550,7 @@ in {
       unzip
       usbutils
       util-linux
-      # v2ray
+      v2ray
       # v2raya
       v2rayn
       valgrind
@@ -1013,15 +1014,15 @@ in {
         flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       '';
     };
-    # v2ray = {
-    #   description = "V2Ray Service";
-    #   after = ["network.target"];
-    #   serviceConfig = {
-    #     ExecStart = "${pkgs.v2ray}/bin/v2ray run";
-    #     Restart = "always";
-    #   };
-    #   wantedBy = ["multi-user.target"];
-    # };
+    v2ray = {
+      description = "V2Ray Service";
+      after = ["network.target"];
+      serviceConfig = {
+        ExecStart = "${pkgs.v2ray}/bin/v2ray run";
+        Restart = "always";
+      };
+      wantedBy = ["multi-user.target"];
+    };
     polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
       wantedBy = ["graphical-session.target"];

@@ -39,6 +39,7 @@
               flake8
               pylint
               mypy
+              scikit-learn
             ]))
           pkgs.zlib
           pkgs.zstd

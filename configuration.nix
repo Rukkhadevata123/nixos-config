@@ -437,6 +437,7 @@ in {
       gradle
       grim
       gnome-console
+      gnome-characters
       gnome-disk-utility
       gnome-software
       gnome-terminal
@@ -458,6 +459,7 @@ in {
       iperf3
       ipcalc
       jq
+      jetbrains.rust-rover
       kdePackages.filelight
       kdePackages.full
       kdePackages.qt6ct

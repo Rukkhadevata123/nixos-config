@@ -238,7 +238,7 @@ in {
   hardware = {
     nvidia = {
       open = false;
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      # package = config.boot.kernelPackages.nvidiaPackages.production;
     };
     graphics = {
       enable = true;
@@ -382,6 +382,7 @@ in {
       binwalk
       bison
       bleachbit
+      # (blender.override {cudaSupport = true;})
       brightnessctl
       btop
       busybox
@@ -459,7 +460,7 @@ in {
       iperf3
       ipcalc
       jq
-      jetbrains.rust-rover
+      # jetbrains.rust-rover
       kdePackages.filelight
       kdePackages.full
       kdePackages.qt6ct
@@ -473,6 +474,7 @@ in {
       libguestfs
       libnotify
       libreoffice-qt6-fresh
+      libxkbcommon
       libxcrypt
       lldb
       lm_sensors
@@ -486,7 +488,7 @@ in {
       maven
       meson
       mediainfo
-      microsoft-edge
+      # microsoft-edge
       mlocate
       motrix
       mpv
@@ -531,6 +533,10 @@ in {
       rofi
       rustup
       scrcpy
+      SDL2
+      sdl3
+      sdl3-ttf
+      sdl3-image
       slurp
       socat
       spice-vdagent
@@ -562,6 +568,10 @@ in {
       vkd3d
       vkd3d-proton
       vulkan-tools
+      wayland
+      wayland-scanner
+      wayland-protocols
+
       wget
       which
       whitesur-gtk-theme

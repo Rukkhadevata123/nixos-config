@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  blender-bin,
   ...
 }: {
   # 基本配置
@@ -8,6 +9,10 @@
   home.homeDirectory = "/home/yoimiya";
   home.stateVersion = "25.05"; # 请不要轻易更改
   programs.home-manager.enable = true;
+
+  home.packages = with pkgs; [
+    blender-bin.packages.${pkgs.system}.default
+  ];
 
   # Git 配置
   programs.git = {

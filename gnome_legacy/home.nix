@@ -2,11 +2,9 @@
   config,
   pkgs,
   ...
-}:
-let
+}: let
   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
-in
-{
+in {
   imports = [
     (import "${home-manager}/nixos")
   ];
@@ -48,7 +46,7 @@ in
       "Kvantum/Arc".source = "${pkgs.arc-kde-theme}/share/Kvantum/Arc";
       "Kvantum/kvantum.kvconfig".text = "[General]\ntheme=Arc";
     };
-    
+
     home.pointerCursor = {
       gtk.enable = true;
       package = pkgs.vanilla-dmz;

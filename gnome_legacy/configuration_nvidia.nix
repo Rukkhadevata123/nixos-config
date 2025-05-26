@@ -5,8 +5,7 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -28,19 +27,17 @@
     systemd-boot.extraFiles."efi/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
     systemd-boot.extraEntries = {
       # Chainload Windows bootloader via EDK2 Shell
-      "windows.conf" =
-        let
-          # To determine the name of the windows boot drive, boot into edk2 first, then run
-          # `map -c` to get drive aliases, and try out running `FS1:`, then `ls EFI` to check
-          # which alias corresponds to which EFI partition.
-          boot-drive = "FS2";
-        in
-        ''
-          title Windows Bootloader
-          efi /efi/shell.efi
-          options -nointerrupt -nomap -noversion ${boot-drive}:EFI\Microsoft\Boot\Bootmgfw.efi
-          sort-key y_windows
-        '';
+      "windows.conf" = let
+        # To determine the name of the windows boot drive, boot into edk2 first, then run
+        # `map -c` to get drive aliases, and try out running `FS1:`, then `ls EFI` to check
+        # which alias corresponds to which EFI partition.
+        boot-drive = "FS2";
+      in ''
+        title Windows Bootloader
+        efi /efi/shell.efi
+        options -nointerrupt -nomap -noversion ${boot-drive}:EFI\Microsoft\Boot\Bootmgfw.efi
+        sort-key y_windows
+      '';
       # Make EDK2 Shell available as a boot option
       "edk2-uefi-shell.conf" = ''
         title EDK2 UEFI Shell
@@ -71,7 +68,7 @@
     # Honkai Star Rail analytics servers (cn)
     0.0.0.0 log-upload.mihoyo.com
     0.0.0.0 public-data-api.mihoyo.com
-    
+
     0.0.0.0 log-upload.mihoyo.com
     0.0.0.0 uspider.yuanshen.com
     0.0.0.0 ys-log-upload.mihoyo.com
@@ -116,11 +113,11 @@
     intel-media-driver
     intel-media-sdk
   ];
-  hardware.graphics.extraPackages32 = with pkgs.pkgsi686Linux; [ intel-media-driver ];
+  hardware.graphics.extraPackages32 = with pkgs.pkgsi686Linux; [intel-media-driver];
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "iHD";
   };
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
     # Modesetting is required.
@@ -179,19 +176,19 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.desktopManager.gnome.extraGSettingsOverridePackages = [ pkgs.mutter ];
+  services.xserver.desktopManager.gnome.extraGSettingsOverridePackages = [pkgs.mutter];
   # bash: gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <1>}]"
   # bash: gsettings set org.gnome.desktop.interface scaling-factor 1
   # bash: gsettings set org.gnome.desktop.interface text-scaling-factor 1.25
   services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
     [org.gnome.mutter]
     experimental-features=['variable-refresh-rate', 'scale-monitor-framebuffer', 'kms-modifiers', 'autoclose-xwayland']
-    
+
     [org.gnome.desktop.interface]
     text-scaling-factor=1.25
     scaling-factor=1
-    '';
-  services.xserver.desktopManager.gnome.sessionPath = [ pkgs.gpaste ];
+  '';
+  services.xserver.desktopManager.gnome.sessionPath = [pkgs.gpaste];
 
   # Configure keymap in X11.
   services.xserver.xkb = {
@@ -253,8 +250,8 @@
   programs.plotinus.enable = true;
 
   programs.thunderbird.enable = true;
-  
-	programs.gpaste.enable = true;
+
+  programs.gpaste.enable = true;
 
   programs.dconf.enable = true;
 
@@ -896,19 +893,19 @@
   # V2Ray service configuration.
   systemd.services.v2ray = {
     description = "V2Ray Service";
-    after = [ "network.target" ]; # Run after network is up.
+    after = ["network.target"]; # Run after network is up.
 
     serviceConfig = {
       ExecStart = "${pkgs.v2ray}/bin/v2ray run"; # Start V2Ray.
       Restart = "always"; # Restart on failure.
     };
 
-    wantedBy = [ "multi-user.target" ]; # Run in multi-user mode.
+    wantedBy = ["multi-user.target"]; # Run in multi-user mode.
   };
 
   services.gnome.games.enable = true;
   services.gnome.core-developer-tools.enable = true;
-  
+
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
   programs.virt-manager.enable = true;
@@ -917,9 +914,8 @@
   virtualisation.waydroid.enable = true;
   virtualisation.libvirtd.qemu = {
     swtpm.enable = true;
-    ovmf.packages = [ pkgs.OVMFFull.fd ];
+    ovmf.packages = [pkgs.OVMFFull.fd];
   };
-
 
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = false;
@@ -948,8 +944,8 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 }
-
 # export LD_LIBRARY_PATH=$(find /nix/store -type d -name '*steam-run-fhs*' -exec echo -n {}'/usr/lib32:'{}'/usr/lib64:' \;):$(find /nix/store -type d -name '*qtbase*' -exec echo -n {}'/lib:' \;)
 # kgx --tab
 # nix-shell -p ncurses5 flex bison elfutils openssl # kernel
 # nix-shell -p gtk4 gtk3 pkg-config # rust-gtk
+

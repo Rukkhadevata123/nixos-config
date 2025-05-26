@@ -22,6 +22,11 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    blender-bin = {
+      url = "github:edolstra/nix-warez?dir=blender";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -32,6 +37,7 @@
     nix-software-center,
     nixos-conf-editor,
     nur,
+    blender-bin,
     ...
   }: {
     nixosConfigurations = {
@@ -75,13 +81,13 @@
           nur.legacyPackages."${system}".repos.iopq.modules.xraya
 
           # NUR 包
-          ({pkgs, ...}: {
-            environment.systemPackages = [
-              pkgs.nur.repos.mic92.hello-nur
-              pkgs.nur.repos.novel2430.wpsoffice-365
-              pkgs.nur.repos.rewine.ttf-wps-fonts
-            ];
-          })
+          #           ({pkgs, ...}: {
+          #             environment.systemPackages = [
+          #               pkgs.nur.repos.mic92.hello-nur
+          #               pkgs.nur.repos.novel2430.wpsoffice-365
+          #               pkgs.nur.repos.rewine.ttf-wps-fonts
+          #             ];
+          #           })
         ];
 
         # 传递所有输入到 configuration.nix

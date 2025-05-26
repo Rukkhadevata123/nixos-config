@@ -54,10 +54,19 @@
           libGLU.dev
           freeglut
           mesa
+          SDL2
+          sdl3
+          sdl3-ttf
+          sdl3-image
+          cairo
+          gdk-pixbuf
+          gdk-pixbuf-xlib
+          gtk3
+          atkmm
 
           # 对于 Wayland（如果需要）
           wayland
- 	        wayland-scanner
+          wayland-scanner
           wayland-protocols
           libxkbcommon
 
@@ -95,7 +104,19 @@
             pkgs.libxkbcommon
             pkgs.xorg.libXxf86vm
             pkgs.libffi
+            pkgs.SDL2
+            pkgs.sdl3
+            pkgs.sdl3-ttf
+            pkgs.sdl3-image
+            pkgs.cairo
+            pkgs.gdk-pixbuf
+            pkgs.gdk-pixbuf-xlib
+            pkgs.gtk3
+            pkgs.atkmm
           ]}"
+
+          # 设置 PKG_CONFIG_PATH 以包含 GTK 库
+          export PKG_CONFIG_PATH="${pkgs.gtk3}/lib/pkgconfig:${pkgs.pango.dev}/lib/pkgconfig:${pkgs.cairo.dev}/lib/pkgconfig:${pkgs.glib.dev}/lib/pkgconfig:${pkgs.atk.dev}/lib/pkgconfig:$PKG_CONFIG_PATH"
 
           # STB 头文件路径设置
           export STB_INCLUDE_PATH="${pkgs.stb}/include/stb"
@@ -110,7 +131,7 @@
           if [ -d "/run/opengl-driver/share/vulkan/icd.d" ]; then
             # 收集 64 位和 32 位 ICD 文件
             ICD_FILES=$(find /run/opengl-driver{,-32}/share/vulkan/icd.d -name "*.json" 2>/dev/null | tr '\n' ':')
-            
+
             if [ ! -z "$ICD_FILES" ]; then
               # 移除末尾的冒号
               ICD_FILES="''${ICD_FILES%:}"
@@ -154,7 +175,7 @@
           echo "==== Vulkan 系统信息 ===="
           echo "VK_ICD_FILENAMES: $VK_ICD_FILENAMES"
           echo "VK_LAYER_PATH: $VK_LAYER_PATH"
-          
+
           # 系统 ICD 文件
           echo -e "\n==== 系统 ICD 文件 ===="
           for d in /run/opengl-driver/share/vulkan/icd.d /run/opengl-driver-32/share/vulkan/icd.d; do
@@ -163,7 +184,7 @@
               ls -la "\$d"
             fi
           done
-          
+
           # 运行 vulkaninfo
           if command -v vulkaninfo &> /dev/null; then
             echo -e "\n==== Vulkan 设备信息 ===="

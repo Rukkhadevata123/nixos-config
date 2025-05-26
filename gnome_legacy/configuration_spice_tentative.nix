@@ -5,8 +5,7 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -51,7 +50,7 @@
   # Enable the X11 windowing system with the modesetting video driver.
   hardware.graphics.enable32Bit = true;
   hardware.graphics.enable = true;
-  services.xserver.videoDrivers = [ "modesetting" ];
+  services.xserver.videoDrivers = ["modesetting"];
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -377,14 +376,14 @@
   # V2Ray service configuration.
   systemd.services.v2ray = {
     description = "V2Ray Service";
-    after = [ "network.target" ]; # Run after network is up.
+    after = ["network.target"]; # Run after network is up.
 
     serviceConfig = {
       ExecStart = "${pkgs.v2ray}/bin/v2ray run"; # Start V2Ray.
       Restart = "always"; # Restart on failure.
     };
 
-    wantedBy = [ "multi-user.target" ]; # Run in multi-user mode.
+    wantedBy = ["multi-user.target"]; # Run in multi-user mode.
   };
 
   # Open ports in the firewall.

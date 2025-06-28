@@ -110,26 +110,22 @@ in {
       variant = "";
     };
     videoDrivers = ["modesetting" "nvidia"];
-
-    # GNOME 桌面设置 (使用 xserver 下的旧路径)
-    displayManager.gdm.enable = false;
-    desktopManager.gnome.enable = false;
     desktopManager.runXdgAutostartIfNone = true;
   };
 
   # KDE Plasma 配置 (使用新路径)
   services.desktopManager = {
-    # 不要在这里配置 gnome - 这是错误的新路径
     plasma6.enable = true;
+    gnome.enable = false;
   };
 
   # 显示管理器配置 (使用新路径)
   services.displayManager = {
-    # gdm 已在 services.xserver 中配置
     sddm = {
       enable = true;
       wayland.enable = true;
     };
+    gdm.enable = false;
   };
 
   #-------------------------------

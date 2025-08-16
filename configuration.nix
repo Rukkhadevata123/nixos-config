@@ -329,7 +329,7 @@
       # gammastep
       # gawk
       gamemode
-      # gcc
+      gcc
       # gdb
       # ghostty
       gimp3
@@ -354,6 +354,7 @@
       gnome-software
       gnome-terminal
       gnome-text-editor
+      gnome-tweaks
       gnuchess
       gtk2
       gtk3

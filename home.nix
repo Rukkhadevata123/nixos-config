@@ -11,7 +11,7 @@
     enable = true;
     lfs.enable = true;
     userName = "Rukkhadevata123";
-    userEmail = "3230102179@zju.edu.cn";
+    userEmail = "rukkhadevata@foxmail.com";
   };
 
   # Zsh 配置

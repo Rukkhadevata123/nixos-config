@@ -262,6 +262,7 @@
       "flakes"
     ];
     substituters = [
+      "https://mirrors.ustc.edu.cn/nix-channels/store"
       "https://cuda-maintainers.cachix.org"
       "https://nix-community.cachix.org"
       "https://cache.nixos.org/"
